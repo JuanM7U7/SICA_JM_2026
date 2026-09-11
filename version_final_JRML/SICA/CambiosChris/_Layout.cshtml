@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - sicav2</title>    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.dataTables.min.css" />
+    <link href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+@*     crissssssssssss *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/sicav2.styles.css" asp-append-version="true" />
+    
+</head>
+<body>
+    <div class="C_Header">
+        <div class="Header_1">
+            <a asp-controller="Home" asp-action="Index"><img class="logoCDH_Home" src="/img/logoCDHP.png" /></a>
+            <h3 class="sicaTitle_Home">SISTEMA INFORMÁTICO DE CLASIFICACIÓN ARCHIVÍSTICA</h3>
+        </div>
+        <div class="Header_2">
+            <div class="C_UnidadAdministrativa">
+                <h6 class="T_UnidadAdministrativa">Unidad <br />Administrativa:</h6>
+
+                @{
+                    var NameCompleteClaim = User.FindFirst("Nombre_Completo");
+                    string NameComplete = NameCompleteClaim != null ? NameCompleteClaim.Value : "S/UA";
+                    var Siglas = User.FindFirst("Siglas");
+                    string _Siglas = Siglas != null ? Siglas.Value : "S/UA";
+                    <h6 id="SiglasUA" hidden>@_Siglas</h6>
+                }
+
+                <h6 class="D_UnidadAdministrativa">@NameComplete</h6>
+            </div>
+            <div class="C_Usuario">
+                <h6 class="T_Usuario">Usuario:</h6>
+                <h6 class="D_Usuario">@User.Identity.Name</h6>
+
+                <a class="reporteButton" asp-controller="Home" asp-action="reporteInventario">Reporte de Inventario Documental</a>
+                
+                <a id="logoutButton" href="">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+        
+    <div class="containerPrincipal">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!--PRUEBA DE MODAL POR MARTIN -->
+
+    <div class="modal fade bd-example-modal-xl" id="ModalDocumento" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <span class="cerrarDocumento">&times;</span>
+                <div class="modal-header VistaDocumentos" id="VistaDocumentos">
+                    <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
+
+                </div>
+                <div class="modal-body contenidoModalDocumento" id="contenidoModalDocumento">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--FIN PRUEBA DE MODAL POR MARTIN -->
+    <!--MODAL PARA AGREGAR Y EDITAR DOCUMENTOS -->
+    <div class="modal fade bd-example-modal-lg" id="ModalEditarAgregar" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col-6">
+                        <img class="logoModal" src="/img/Horizontal Logo Sin Fondo.png" alt="Logo de CDHP" />
+                    </div>
+                    <div class="col-6">
+                        <span class="cerrarModalEdi">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-header titlesModal" id="VistaEditarAgregar">
+
+                    <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
+
+                </div>
+
+                <div class="modal-body contenidoModalEditarAgregar" id="contenidoModalEditarAgregar">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--PRUEBAS DE MODAL POR ENRIQUE -->
+
+    <div class="modal fade bd-example-modal-lg" id="ModalPrueba" role="dialog" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <div class="row">
+                    <div class="col-6">
+                        <img class="logoModal" src="/img/Horizontal Logo Sin Fondo.png" alt="Logo de CDHP" />
+                    </div>
+                    <div class="col-6">
+                        <span class="cerrar">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-header titlesModal" id="AltaExpediente">
+                    
+                    <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
+                    
+                </div>
+                <div class="modal-body contenidoModal" id="contenidoModal">
+                </div>
+
+
+                <div class="modal-body contenidoModal" id="contenidoModalDoc">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--FIN PRUEBAS DE MODAL POR ENRIQUE -->
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/CerrarSesion.js" asp-append-version="false"></script>
+    <script src="~/js/Inactividad.js" asp-append-version="false"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.3/js/dataTables.fixedHeader.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+
+    
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

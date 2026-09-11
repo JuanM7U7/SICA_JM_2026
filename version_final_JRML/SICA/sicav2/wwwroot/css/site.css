@@ -1,0 +1,1086 @@
+* {
+    font-family: tahoma;
+    padding: 0px;
+    margin: 0px;
+    font-size: .9rem;
+}
+
+body {
+    background-color: #F7F7F7;
+}
+
+a {
+    text-decoration: none;
+}
+html {
+    font-size: 16px;
+    font-family: courier,arial,helvética !important;
+}
+
+.containerP {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    min-height: 100%;
+}
+/*JM------------------------------------------------------------------*/
+.Container_Logo {
+    width: 55vw;
+    height: 100vh;
+    background-color: #F7F7F7;
+    display: flex;
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 5px; 
+}
+
+.scene {
+    perspective: 1000px; /* fijo */
+    transform-style: preserve-3d;
+}
+
+.circle {
+    width: 25vw;
+    height: 40vh;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotarYInfinito 8s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.cara {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /*border: 3px solid lightgray;*/
+    background-image: url(/img/logocdhJM.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    backface-visibility: hidden;
+    background-size: 90%; /* menos relleno, no toca bordes */
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden; /* para Safari/Chrome */
+}
+
+.atras {
+    transform: rotateY(180deg);
+}
+
+@keyframes rotarYInfinito {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.logoCDH {
+    width: 500px;
+    height: auto;
+    margin-left: 2px; 
+}
+
+@media (max-width: 1730px) and (min-width: 1201px) {
+
+    .scene {
+        perspective: 1000px; /* fijo */
+        transform-style: preserve-3d;
+    }
+
+    .circle {
+        width: 20vw;
+        height: 40vh;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotarYInfinito 8s linear infinite;
+        will-change: transform;
+        transform: translateZ(0);
+    }
+
+    .cara {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /*border: 3px solid lightgray;*/
+        background-image: url(/img/logocdhJM.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        backface-visibility: hidden;
+        background-size: 90%; /* menos relleno, no toca bordes */
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden; /* para Safari/Chrome */
+    }
+
+    .atras {
+        transform: rotateY(180deg);
+    }
+
+    @keyframes rotarYInfinito {
+        from {
+            transform: rotateY(0deg);
+        }
+
+        to {
+            transform: rotateY(360deg);
+        }
+    }
+
+    .logoCDH {
+        width: 400px;
+        height: auto;
+        margin-left: 1px;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 1051px) {
+
+    .scene {
+        perspective: 1000px; /* fijo */
+        transform-style: preserve-3d;
+    }
+
+    .circle {
+        width: 25vw;
+        height: 30vh;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotarYInfinito 8s linear infinite;
+        will-change: transform;
+        transform: translateZ(0);
+    }
+
+    .cara {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /*border: 3px solid lightgray;*/
+        background-image: url(/img/logocdhJM.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        backface-visibility: hidden;
+        background-size: 90%; /* menos relleno, no toca bordes */
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden; /* para Safari/Chrome */
+    }
+
+    .atras {
+        transform: rotateY(180deg);
+    }
+
+    @keyframes rotarYInfinito {
+        from {
+            transform: rotateY(0deg);
+        }
+
+        to {
+            transform: rotateY(360deg);
+        }
+    }
+
+    .logoCDH {
+        width: 300px;
+        height: auto;
+        margin-left: 1px;
+    }
+}
+
+@media (max-width: 1050px) and (min-width: 701px) {
+    .scene {
+        perspective: 1000px; /* fijo */
+        transform-style: preserve-3d;
+    }
+
+    .circle {
+        width: 25vw;
+        height: 30vh;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rotarYInfinito 8s linear infinite;
+        will-change: transform;
+        transform: translateZ(0);
+    }
+
+    .cara {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /*border: 3px solid lightgray;*/
+        background-image: url(/img/logocdhJM.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        backface-visibility: hidden;
+        background-size: 90%; /* menos relleno, no toca bordes --------JM*/
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden; /* para Safari/Chrome */
+    }
+
+    .atras {
+        transform: rotateY(180deg);
+    }
+
+    @keyframes rotarYInfinito {
+        from {
+            transform: rotateY(0deg);
+        }
+
+        to {
+            transform: rotateY(360deg);
+        }
+    }
+
+    .logoCDH {
+        width: 200px;
+        height: auto;
+        margin-left: 1px;
+    }
+}
+
+/* JUAN M*/
+/*
+.logoCDH {
+    width: 50vw;
+}*/
+
+.logoCDHP {
+    width: 10vw;
+    padding: 10px;
+}
+.logoModal{
+    width:200px;
+    margin-top: 4px;
+    height:auto;
+}
+.cerrar {
+    color: black;
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-left:340px;
+    display: flex;
+}
+.cerrarDocumento {
+    color: black;
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 95%;
+    display: flex;
+}
+
+    .cerrarDocumento:hover,
+    .cerrarDocumento:focus {
+        color: red;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.cerrarModalEdi {
+    color: black;
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 340px;
+    display: flex;
+}
+    .cerrarModalEdi:hover,
+    .cerrarModalEdi:focus {
+        color: red;
+        text-decoration: none;
+        cursor: pointer;
+    }
+.cerrar:hover,
+.cerrar:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+.titlesModal {
+    text-align: center;
+    justify-content: center;
+    margin-top: -20px;
+}
+.TitleListadoDocumentos {
+    text-align: right;
+    text-justify: inter-word;
+    justify-content: right;
+    font-size: 20px;
+    font-family: sans-serif
+}
+.TitleExp {
+    text-align: right;
+    justify-content: center;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+
+    .StyleDocument{
+       
+
+    }
+.Container_Login {
+    width: 45vw;
+    height: 100vh;
+    background: linear-gradient(#3F4195, 80%, #121355);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    box-shadow: black 0px 0px 1.5vw;
+}
+
+.sicaTitle {
+    padding: 5vh 5vw;
+    font-size: calc(1.5vw + .9em);
+    color: white;
+}
+
+.C_userpass {
+    display: flex;
+    flex-direction: column;
+}
+
+    .C_userpass > .user {
+        width: 22vw;
+        height: 50px;
+        margin: 3vh 5vw;
+        font-size: calc(1.5vw + .5em);
+        border: none;
+        border-bottom: 2px solid white;
+        background-color: transparent;
+        color: white;
+        outline: none;
+    }
+
+        .C_userpass > .user::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+    .C_userpass > .pass {
+        width: 22vw;
+        height: 50px;
+        margin: 1vh 5vw;
+        font-size: calc(1.5vw + .5em);
+        border: none;
+        border-bottom: 2px solid white;
+        background-color: transparent;
+        color: white;
+        outline: none;
+    }
+
+        .C_userpass > .pass::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+.container_rbtn {
+    margin: 3vh 5vw;
+    color: white;
+    font-size: calc(.6vw + .5em);
+}
+
+    .container_rbtn > .rbtnRecuerdame {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.2); /* IE */
+        -moz-transform: scale(1.2); /* FF */
+        -webkit-transform: scale(1.2); /* Safari and Chrome */
+        -o-transform: scale(1.2); /* Opera */
+        transform: scale(1.2);
+        padding: 20px;
+    }
+
+.C_userpass > .btnIS {
+    width: 170px;
+    height: 58px;
+    font-size: calc(.7vw + .5em);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
+    border-radius: 7px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+    .C_userpass > .btnIS:hover {
+        background-color: #20B1AE;
+        color: #121355;
+        border: none;
+    }
+
+.pnlDatsUser {
+    width: 100%;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #0D3082;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5vw;
+}
+
+@media screen and (max-width: 700px) {
+
+    .Container_Login {
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(#3F4195, 80%, #121355);
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        box-shadow: black 0px 0px 1.5vw;
+        align-items: center;
+    }
+
+    .sicaTitle {
+        text-align: center;
+        margin-bottom: 0px;
+        font-size: 1.2rem;
+    }
+
+    .Container_Logo {
+        display: none;
+    }
+
+    .C_userpass {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+
+        .C_userpass > .user {
+            width: 50vw;
+            height: 50px;
+            text-align: center;
+        }
+
+            .C_userpass > .user::placeholder {
+                color: rgba(255,255,255,0.5);
+            }
+
+        .C_userpass > .pass {
+            width: 50vw;
+            height: 50px;
+            text-align: center;
+        }
+
+            .C_userpass > .pass::placeholder {
+                color: rgba(255,255,255,0.5);
+            }
+}
+
+@media screen and (max-height: 400px) {
+    .Container_Login {
+        height: 360px;
+    }
+}
+
+/*Aquí empieza el diseño de los buscadores*/
+.containerPrincipal {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.c-buscador-global {
+    font-size: .85rem;
+}
+
+    .c-buscador-global .titulo {
+        padding: 10px 50px;
+        background: linear-gradient(#20B1AE, 70%, #0c4f4e);
+        /*color: #121355;*/
+        color: #fff;
+        font-weight: bolder;
+        font-size: .85rem;
+    }
+
+.c-buscador-g {
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #efefef;
+}
+
+    .c-buscador-g .txtBuscadorG {
+        width: 280px;
+        height: 28px;
+        margin-right: 20px;
+        outline: none;
+        padding: 12px 15px;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+
+    .c-buscador-g fieldset {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto auto auto;
+    }
+
+.c-header-select {
+    background: linear-gradient(#20B1AE, 70%, #0c4f4e);
+    display: flex;
+}
+
+.c-header-select .cmbAnio {
+    padding: 10px 0px;
+    width: 90%;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    /*Color: #121355;*/
+    color:white;
+    font-size: .85rem;
+    font-weight: bolder;
+    margin-left: 40px;
+}
+
+.cmbAnio option {
+    background-color: gray;
+    color: white;
+}
+
+#txtBuscador {
+    width: 90%;
+    height: 28px;
+    outline: none;
+    padding: 12px 15px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 10px auto;
+}
+
+#opcionesSelect {
+    width: 100%;
+    height: 28px;
+    padding: 12px 15px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 10px auto;
+}
+
+.hiddenBuscador {
+    display: none;
+}
+
+.Opt {
+    background-color: #20B1AE;
+    color: white;
+    padding: 5px 5%;
+    cursor: pointer;
+    border-bottom: solid 2px #0c4f4e;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    .Opt .Opt-titulo, .lblContador {
+        padding: 5px;
+        font-size: .9rem;
+    }
+
+    .Opt .lblContador {
+        padding: 5px 10px;
+        background-color: #0c4f4e;
+        border-radius: 5px;
+    }
+
+.Vacio {
+    cursor: default;
+}
+
+.disabledInput {
+    width: 280px;
+    height: 28px;
+    margin-right: 20px;
+    outline: none;
+    padding: 12px 15px;
+    border: 1px solid red;
+    border-radius: 20px;
+}
+/* Estilos para la lista desplegable */
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    background-color: #efefef;
+    /*background-color:white;*/
+}
+
+.dropdown-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: max-height 0.3s ease-out;
+}
+
+    .dropdown-list.show {
+        animation: fadeIn 0.5s; /* Animación de entrada al mostrar */
+    }
+
+    table {
+        width: 100%;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.C-Table {
+    overflow: scroll;
+    overflow-y: hidden;
+    padding: 5px;
+}
+
+    .C-Table::-webkit-scrollbar {
+        width: 10px; /* width of the entire scrollbar */
+        height: 15px;
+    }
+
+    .C-Table::-webkit-scrollbar-track {
+        background-color: white; /* color of the tracking area */
+    }
+
+    .C-Table::-webkit-scrollbar-thumb {
+        background-color: gray; /* color of the scroll thumb */
+        border-radius: 20px; /* roundness of the scroll thumb */
+        border: 3px solid white;
+    }
+
+/*Aquí termina el diseño de los buscadores*/
+
+.heading::before {
+    transition: all 0.5s;
+}
+
+.contents {
+    display: none;
+    padding: 15px;
+    font-size: .85rem;
+}
+
+thead input {
+    width: 100%;
+}
+
+.action-buttons {
+    height: 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+}
+
+    .action-buttons i {
+        font-size: 175%;
+        margin: 3px;
+    }
+
+    .action-buttons .pdf {
+        color: #FF1B0E;
+    }
+
+    .action-buttons .edit {
+        color: #4A3519;
+    }
+
+    .action-buttons .remove {
+        color: rgb(200,0,0);
+    }
+
+@media screen and (max-width: 768px) {
+    .c-buscador-g {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 30px;
+        background-color: #efefef;
+    }
+
+        .c-buscador-g .txtBuscadorG {
+            width: 90%;
+            height: 28px;
+            margin-right: 0px;
+            outline: none;
+            padding: 12px 15px;
+            border: 1px solid black;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .c-buscador-g fieldset {
+            width: 100%;
+            display: grid;
+            grid-template-columns: auto auto auto;
+        }
+
+        .c-buscador-g label {
+            padding: 2px 3px;
+        }
+
+    .c-header-select .cmbAnio {
+        padding: 10px 0px;
+        width: 85%;
+        outline: none;
+        background-color: transparent;
+        border: none;
+        color: #121355;
+        font-size: .85rem;
+        font-weight: bolder;
+        margin-left: 40px;
+    }
+    html {
+        font-size: 16px;
+    }
+}
+
+.button_alta {
+    width: 50px;
+    margin-bottom: 10px;
+    padding: 0px;
+   
+    border: 0;
+    color: white;
+    border-radius: 3px;
+    
+}
+    .button_alta:hover {
+        background: #0a58ca;
+        color: white;
+        cursor: pointer
+    }
+
+.button_registrar {
+    text-align: center;
+    width: 50%;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left: 25%;
+    background: #20B1AE;
+    border: 0.5px solid black;
+    color: white;
+    border-radius: 3px;
+}
+
+.button_documento {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #DFDFDF;
+    border: 1px solid black;
+    color: black;
+    border-radius: 3px;
+    margin: 10px;
+}
+
+.modal {
+    /*display: none; /* Por defecto, estará oculto */
+    position: fixed; /* Posición fija */
+    /*z-index: 1; /* Se situará por encima de otros elementos de la página*/
+    padding-top: 0px; /* El contenido estará situado a 30px de la parte superior */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Algura completa */
+    overflow: auto; /* Se activará el scroll si es necesario */
+    background-color: rgba(0,0,0,0.5); /* Color negro con opacidad del 50% */
+}
+
+/* Ventana o caja modal */
+.contenido-modal {
+    position: relative; /* Relativo con respecto al contenedor -modal- */
+    margin: auto; /* Centrada */
+    padding: 20px;
+    width: 80%; 
+    -webkit-animation-name: animarsuperior;
+    -webkit-animation-duration: 0.5s;
+    animation-name: animarsuperior;
+    animation-duration: 0.5s;
+    display: flex;
+}
+
+.contenidoModalDocumento {
+    position: relative;
+    /*Relativo con respecto al contenedor -modal- margin: auto;*/
+    /*Centrada*/ padding: 20px;
+    width: 80%;
+    -webkit-animation-name: animarsuperior;
+    -webkit-animation-duration: 0.5s;
+    animation-name: animarsuperior;
+    animation-duration: 0.5s;
+    display: flex;
+}
+
+
+
+/*Estilos de los botones de la tabla de Documentos*/
+
+.buttonSelDoc {
+    width: 50px;
+    margin-bottom: 10px;
+    padding: 0px;
+    border: 0;
+    color: white;
+    border-radius: 3px;
+}
+
+    .buttonSelDoc:hover {
+        background: #0a58ca;
+        color: white;
+        cursor: pointer
+    }
+
+.pdf {
+    margin-bottom: 5px;
+    padding: 0px;
+    border: 0;
+    color: white;
+    border-radius: 3px;
+}
+
+.pdf {
+    color: white;
+    cursor: pointer
+}
+
+.BtnSeleccionar {
+    height: 15px;
+    color: black;
+    padding: 0px 8px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #767676;
+    margin: 0px 2px;
+}
+
+    .BtnSeleccionar:hover {
+        background: #0a58ca;
+        color: white;
+        cursor: pointer
+    }
+
+.BtnDeSeleccionar {
+    height: 15px;
+    color: black;
+    padding: 0px 8px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #767676;
+    margin: 0px 2px;
+}
+
+    .BtnDeSeleccionar:hover {
+        background: #0a58ca;
+        color: white;
+    }
+
+.reporteButton {
+    border-radius: 5px;
+    border: 2px solid;
+    text-align: center;
+    align-items: flex-end;
+    padding: 5px 1px;
+    margin-left: 0px;
+    margin-right: 25px;
+    text-decoration: none;
+    font-size: .9rem;
+    border: 2px solid rgba(0,0,0,1);
+    color: black;
+    /*background: linear-gradient(white,#ccc );*/
+}
+
+    .reporteButton:hover {
+        background-color: #20B1AE;
+        color: black;
+        border-radius: 5px;
+        border: 2px solid rgba(0,0,0,1);
+    }
+
+
+.CadidoButton {
+    border-radius: 5px;
+    border: 2px solid;
+    text-align: center;
+    align-items: center;
+    padding: 10px 10px;
+    margin-left: 0px;
+    margin-right: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    border: 2px solid rgba(0,0,0,1);
+    color:black;
+    
+
+ 
+}
+
+.CadidoButton:hover {
+    background-color: #20B1AE;
+    color:black;
+    border-radius: 5px;
+    border: 2px solid rgba(0,0,0,1);
+}
+
+
+
+    /*Estilo de la caratula*/
+
+#contenedor {
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/Caratula.jpg');
+    background-size: cover;
+}
+
+.tables {
+    border: none;
+    font-size: 20px;
+    margin-top: 20% !important;
+    margin-left: 10%;
+}
+
+#tabla1 {
+    margin-top: 30% !important;
+    margin-left: 20%;
+}
+
+#tabla2 {
+    padding-top: 30%;
+    margin-left: 15%;
+}
+
+.tables td {
+    border: 0;
+    border-bottom: 1px solid #000
+}
+
+#tbl-Doc {
+    width: 1100px !important;
+}
+/*Apartado de los selects*/
+
+#loadingOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.9);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.loader-series {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.85);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 15px;
+    color: #00796b;
+}
+
+    .loader-series .spinner {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #ccc;
+        border-top: 5px solid #00796b;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 8px;
+    }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.loader-serie-local{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:40px 0;
+    gap:10px;
+}
+
+.loader-serie-local .spinner{
+    width:32px;
+    height:32px;
+    border:4px solid #ccc;
+    border-top:4px solid #007bff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{ transform:rotate(360deg); }
+}

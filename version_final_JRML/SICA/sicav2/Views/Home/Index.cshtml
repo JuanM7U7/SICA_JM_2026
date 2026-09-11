@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+
+@{
+    ViewData["Title"] = "Inicio";
+    var SiglasAreaClaim = User.FindFirst("Siglas");
+    string SiglasArea = SiglasAreaClaim != null ? SiglasAreaClaim.Value : "S/UA";
+}
+
+
+<!-- Contenedor -->
+<div class="c-buscador-global">
+    <div class="titulo">Buscador Global</div>
+    <div id="c-buscador-g" class="c-buscador-g"></div>
+</div>
+
+<div class="C-DropDown" id="C-DropDownArea"></div>
+<div class="C-DropDown" id="C-DropDown"></div>
+
+<!--  LOADER GLOBAL (JM) -->
+<div id="loadingOverlay" style="display:none;">
+    <div class="spinner"></div>
+    <p>Cargando expedientes…</p>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/28f1d66de7.js" crossorigin="anonymous"></script>
+    <script>
+        var ExportaDocumento = '@Url.Action("CaratulaPDF", "Home")';
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.24/dataRender/datetime.js"></script>
+
+    <script src="~/js/site.js"></script>
+}

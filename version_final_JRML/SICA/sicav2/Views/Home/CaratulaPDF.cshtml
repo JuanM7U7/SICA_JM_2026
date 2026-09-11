@@ -1,0 +1,1157 @@
+﻿@model List<sicav2.Models.ModeloCaratulaPDF>
+@{
+    Layout = null;
+}
+@foreach (var item in Model)
+{
+
+    <html charset="UTF-8">
+
+    <head>
+        <title>Caratula</title>
+        <style>
+
+            #contenedor {
+                width: 100%;
+                height: 100%;
+                background-image: url('../img/Caratula3.jpg');
+                background-size: cover;
+            }
+
+            table {
+                border: .1px solid transparent !important;
+                position: absolute;
+            }
+
+            .tables {
+                font-size: 20px;
+            }
+
+            #tablauno {
+                font-size: 33px;
+                margin-top: 6.5% !important;
+                margin-left: 51%;
+                color: white;
+                font-weight: bold;
+                border-collapse: collapse;
+                text-align: left;
+            }
+
+                #tablauno td {
+                    max-width: 400px !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    margin-left: -10%;
+                }
+
+
+            #tablacomplemento td p {
+                white-space: initial;
+            }
+
+
+            #tablacomplemento {
+                font-size: 24px;
+                margin-top: 10% !important;
+                margin-left: 23%;
+                color: white;
+                border-collapse: collapse;
+                text-align: left;
+            }
+
+                #tablacomplemento td {
+                    max-width: 660px !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    margin-left: -10%;
+                }
+
+
+            #tablatablacomplementouno td p {
+                white-space: initial;
+            }
+
+            #tabla2 {
+                margin-top: 24.0% !important;
+                margin-left: 32.5%;
+                border-collapse: collapse;
+            }
+
+                #tabla2 td {
+                    max-width: 500px !important;
+                    min-width: 95px;
+                }
+
+
+            #tablatres {
+                margin-top: 42.5% !important;
+                margin-left: 12%;
+                border-collapse: collapse;
+            }
+
+                #tablatres tr {
+                    margin-top: 7% !important;
+                    margin-left: 12%;
+                    border-collapse: collapse;
+                    height: 20px;
+                }
+
+            #tablacuatro {
+                margin-top: 56.5% !important;
+                margin-left: 15%;
+                border-collapse: collapse;
+            }
+
+                #tablacuatro td {
+                    min-width: 125px;
+                }
+
+            #tablacincoAdmin {
+                font-size: 17px;
+                margin-top: 44.5%;
+                margin-left: 31.3%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablaseisTodos {
+                font-size: 17px;
+                margin-top: 42.5%;
+                margin-left: 49.3%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablacincoLegal {
+                font-size: 17px;
+                margin-top: 46.6%;
+                margin-left: 31.3%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablaseisRese_Confi {
+                font-size: 17px;
+                margin-top: 44.7%;
+                margin-left: 49.3%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablacincoConta {
+                font-size: 17px;
+                margin-top: 48.1%;
+                margin-left: 30.6%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablacincoFiscal {
+                font-size: 17px;
+                margin-top: 50%;
+                margin-left: 30.6%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+
+            #tablacinco td {
+                min-width: 17px !important;
+            }
+
+
+            #tablaseis {
+                font-size: 17px;
+                margin-top: 42.5% !important;
+                margin-left: 49.2%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablaseisPUB {
+                font-size: 17px;
+                margin-top: 44.2% !important;
+                margin-left: 49.2%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+             #tablaseisRES {
+                font-size: 17px;
+                margin-top: 46.6% !important;
+                margin-left: 49.2%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+             #tablaseisPR {
+                font-size: 17px;
+                margin-top: 42.6% !important;
+                margin-left: 49.2%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+            #tablaseisPC {
+                font-size: 17px;
+                margin-top: 42.8% !important;
+                margin-left: 49.2%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+                #tablaseis td {
+                    min-height: 40px !important;
+                }
+
+            #tablasiete {
+                font-size: 17px;
+                margin-top: 44.3% !important;
+                margin-left: 69.0%;
+                border-collapse: collapse;
+                font-weight: bold;
+            }
+
+                #tablasiete td {
+                    min-height: 40px !important;
+                }
+
+
+            #tablaocho {
+                font-size: 25px;
+                margin-top: 68.7% !important;
+                margin-left: 53%;
+                border-collapse: collapse;
+                font-weight: bold;
+                color: white;
+            }
+
+                #tablaocho td {
+                    min-height: 40px !important;
+                    max-height: 100px;
+                    overflow: hidden;
+                }
+
+
+            #tablanueve {
+                font-size: 23px;
+                margin-top: 73.5% !important;
+                margin-left: 31.5%;
+                border-collapse: collapse;
+            }
+
+                #tablanueve td {
+                    max-width: 450px !important;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+
+                    #tablanueve td p {
+                        white-space: initial;
+                    }
+
+            #tabladiez {
+                font-size: 20px;
+                margin-top: 72.6% !important;
+                margin-left: 85%;
+                border-collapse: collapse;
+            }
+
+                #tabladiez td {
+                    height: 5px;
+                }
+
+            #tablaonce {
+                font-size: 20px;
+                margin-top: 83.2% !important;
+                margin-left: 49%;
+                border-collapse: collapse;
+            }
+
+
+            #tabladoce {
+                font-size: 20px;
+                border-collapse: collapse;
+                margin-top: 83.2% !important;
+                margin-left: 77%;
+            }
+
+        </style>
+
+
+    </head>
+
+    <body>
+
+        <div id="contenedor">
+            <br>
+            <TABLE rules="groups" class="tables1" id="tablauno">
+                <THEAD>
+                    <TR>
+                        <TH></TH>
+                        <TH>@item.expediente</TH>
+
+                    </TR>
+            </TABLE>
+            <TABLE rules="groups" class="tables1" id="tablacomplemento">
+                <TBODY>
+                    <TR><TD><TD><p>@item.descrpcionExpediente</p></TR>
+                <TBODY>
+            </TABLE>
+            <TABLE rules="groups" class="tables" id="tabla2">
+
+
+                <THEAD>
+                <TBODY>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD>@item.unidadAdmin_codigo<TD>@item.unidadAdmin_fondo_desc</TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD>@item.seccion_codigo<TD>@item.seccion_desc</TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD>@item.serie_codigo<TD>@item.serie_desc</TR>
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablatres">
+
+                <TBODY>
+                    <TR><TD><TD>@item.anio_apertura</TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD>@item.anio_cierre</TR>
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablacuatro">
+                <TBODY>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR>
+                        <TD>
+
+                            __ de __
+                        <TD>@item.fojas
+                    </TR>
+                <TBODY>
+            </TABLE>
+
+
+            @if (item.valorDocumental == "ADMINISTRATIVO")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                    <TBODY>
+                </TABLE>
+            }
+
+            @if (item.valorDocumental == "LEGAL")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoLegal">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD>X<TD></TD>
+                        <TR><TD><TD></TR>
+                    <TBODY>
+                </TABLE>
+            }
+
+            @if (item.valorDocumental == "CONTABLE")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoConta">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD><TD><TD><TD>X<TD></TD>
+                        <TR><TD><TD></TR>
+
+                    <TBODY>
+                </TABLE>
+            }
+
+            @if (item.valorDocumental.Contains("FISCAL"))
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoFiscal">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD><TD><TD><TD>X<TD></TR>
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMIN_LEGAL")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMIN_CONTA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD style="padding-top: 25px"><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMI_FISCA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD style="padding-top: 49px"><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "LEGAL_CONTA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoLegal">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "LEGA_FISCA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoLegal">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD style="padding-top: 25px"><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "CONTA_FISC")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoConta">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD><TD><TD><TD style="padding-top: 5px">X<TD></TR>
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMIN_LEGAL_CONTA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD><TD><TD><TD style="padding-top: 3px">X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMIN_LEGAL_FISCA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD style="padding-top: 28px"><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "ADMIN_CONTA_FISCA")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                         <TR><TD style="padding-top: 28px"><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "LEGAL_CONTA_FISC")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoLegal">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            @if (item.valorDocumental == "TODOS")
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoAdmin">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD style="padding-top: 5px">X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD style="padding-top: 2px">X<TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            else
+            {
+                <TABLE rules="groups" class="tables" id="tablacincoNda">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+
+
+            <br>
+            <TABLE rules="groups" class="tables" id="tablaseisPUB">
+                <TBODY>
+                    @if (item.clasificacion == "PUBLICO")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablaseisRES">
+                <TBODY>
+                    @if (item.clasificacion == "RESERVADO")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                <TBODY>
+            </TABLE>
+
+
+            <TABLE rules="groups" class="tables" id="tablaseis">
+                <TBODY>
+                    @if (item.clasificacion == "CONFIDENCIAL")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                <TBODY>
+            </TABLE>
+
+            @if (item.clasificacion == "TODOS")
+            {
+                <TABLE rules="groups" class="tables" id="tablaseisTodos">
+                    <TBODY>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td><td><td><td>X<td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td><td><td><td>X<td></tr>
+                        <tr><td><td></tr>
+                        <tr><td><td><td><td><td>X<td></tr>
+                        <tr><td><td></tr>
+
+                    <TBODY>
+                </TABLE>
+            }
+            @if (item.clasificacion == "RESERV_CONFID")
+            {
+                <TABLE rules="groups" class="tables" id="tablaseisRese_Confi">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            @if (item.clasificacion == "PUBLI_RESERV")
+            {
+                <TABLE rules="groups" class="tables" id="tablaseisPR">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+            @if (item.clasificacion == "PUBLI_CONFI")
+            {
+                <TABLE rules="groups" class="tables" id="tablaseisPC">
+                    <TBODY>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD style="padding-top: 25px"><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+
+
+                    <TBODY>
+                </TABLE>
+            }
+
+            <TABLE rules="groups" class="tables" id="tablasiete">
+                <TBODY>
+                    @if (item.plazoConservacion == "tramite")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                    else @if (item.plazoConservacion == "concentracion")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                    else @if (item.plazoConservacion == "Total de años para archivo")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD><TD>X<TD></TR>
+                        <TR><TD><TD></TR>
+                    }
+                    else @if (item.anio_cierre == "1999")
+                    {
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+                        <TR><TD><TD></TR>
+
+                    }
+
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablaocho">
+                <TBODY>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD>@item.expediente<TD></TR>
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablanueve">
+                <TBODY>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD style="padding-left: 15px; padding-top: 8px;"><p>@item.descrpcionExpediente</p><TD></TR>
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tabladiez">
+                <TBODY>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD></TR>
+                    <TR><TD><TD><TD><TD><TD><TD><TD><TD>__<br>de<br>__</TR>
+                    <TR><TD></TR>
+                    <TR><TD><TD><TD><TD><TD><TD><TD><TD>@item.fojas</TR>
+                <TBODY>
+            </TABLE>
+
+            <TABLE rules="groups" class="tables" id="tablaonce">
+
+                <TBODY>
+                    <TR><TD><TD><TD><TD><TD>@item.anio_apertura</TR>
+                <TBODY>
+            </TABLE>
+            <TABLE rules="groups" class="tables" id="tabladoce">
+
+                <TBODY>
+                    <TR><TD><TD><TD><TD><TD><TD>@item.anio_cierre</TR>
+                <TBODY>
+            </TABLE>
+        </div>
+
+
+    </body>
+
+    </html>
+}

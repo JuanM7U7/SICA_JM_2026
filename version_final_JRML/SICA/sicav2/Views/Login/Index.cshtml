@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@model Usuario
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+
+    <div class="containerP">
+
+
+        <div class="Container_Logo">
+
+            <div class="scene">
+                <div class="circle">
+                    <div class="cara frente"></div>
+                    <div class="cara atras"></div>
+                </div>
+            </div>
+
+            <img class="logoCDH" src="/img/logotipoCDHP2025jmmm.png" />
+        </div>
+        
+        <div class="Container_Login">
+
+            <h1 class="sicaTitle"><br />SISTEMA INFORMÁTICO DE CLASIFICACIÓN ARCHIVÍSTICA</h1>
+
+            <form class="C_userpass" asp-controller="Login" asp-action="Index" method="post">
+                <input class="user" type="text" asp-for="Nom_Usuario" placeholder="Usuario" required autocomplete="on" />
+                <!--<span class="text-danger"></span>-->
+                <input class="pass" type="password" asp-for="Pass" placeholder="Contraseña" required autocomplete="on" />
+                <div class="container_rbtn">
+                    <input class="rbtnRecuerdame" type="checkbox" />
+                    <label>Recuerdame</label>
+                </div>
+                <button id="btnIS" class="btnIS" type="submit">INGRESAR</button>
+            </form>
+
+        </div>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+                    const savedUsername = localStorage.getItem('username');
+                    const savedPassword = localStorage.getItem('password');
+                        console.log(savedUsername)
+                        console.log(savedPassword);
+                    if (savedUsername && savedPassword) {
+                        $('.user').val(savedUsername)
+                        $('.pass').val(savedPassword)
+                    }
+        });
+
+        $(document).on('click', '.rbtnRecuerdame', function () {
+                    console.log("Entro al metodo de recordar");
+                    var ch = document.getElementsByClassName("rbtnRecuerdame")[0];
+                    console.log(ch);
+                    var usuario='';
+                    var contrasenia='';
+                    if ($('.rbtnRecuerdame').prop('checked')) {
+                        console.log("Entro al if");
+                        //usuario = document.getElementsByClassName("user").value;
+                        //contrasenia = document.getElementsByClassName("pass");
+                        localStorage.setItem('username', $('.user').val());
+                        localStorage.setItem('password', $('.pass').val());      
+                    }
+
+                    // Recuperar usuario y contraseña
+
+        });
+
+    </script>
+    @if(TempData["swalIcon"] != null)
+    {
+        if (TempData["swalIcon"] == "error")
+        {
+            <script>
+                Swal.fire({
+                    title: '@TempData["swalTitle"]',
+                    text: '@TempData["swalMessage"]',
+                    icon: '@TempData["swalIcon"]',
+                    confirmButtonText: '@TempData["swalButton"]'
+                });
+            </script>
+        } else
+        {
+            <script>
+                Swal.fire({
+                    title: '@Html.Raw(TempData["swalTitle"])',
+                    icon: '@TempData["swalIcon"]',
+                    confirmButtonText: '@TempData["swalButton"]'
+                }).then (function () {
+                    window.location.href = '@Url.Action("Index", "Home")';
+
+                });
+            </script>
+        }
+    }
+</body>
+</html> 

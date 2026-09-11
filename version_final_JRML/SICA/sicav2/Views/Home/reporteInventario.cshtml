@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Reporte del Inventario de Archivo Documental";
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/functioninventario.js"></script>
+    <link href="~/css/inventario.css" rel="stylesheet" />
+</head>
+<body>
+    <!--<img id="LogoExtendido" /> C:/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm'.-->
+    <img id="Image1" src="~/img/loading_sica_v4.gif" />
+    <h1>Generador de Reporte del Inventario de Archivo Documental</h1>
+    <br />
+    <br />
+    <div id="contenedor-1">
+        <form id="msform" role="form">
+            <label>Tipo de Reporte : </label><select id="TR" name="TR">
+                <option Value="0">Selecciona</option>
+                <option Value="General">General</option>
+                <option Value="Por_Area">Por Área</option>
+                <option Value="Por_Area_Serie_Documental">Por Área y Serie Documental</option>
+            </select>
+            <br />
+            <br />
+            <label>Area :</label><select id="AR" name="AR">
+                <option Value="PRES">Presidencia</option>
+                <option Value="DARP">Dirección de Agenda y Relaciones Públicas</option>
+                <option Value="OIC">Órgano Interno de Control</option>
+                <option Value="UT">Unidad de Transparencia</option>
+                <option Value="STE">Secretaría Técnica Ejecutiva</option>
+                <option Value="IIEDH">Instituto de Investigaciones y Estudios en Materia de Derechos Humanos</option>
+                <option Value="PVG">Primera Visitaduría General</option>
+                <option Value="SVG">Segunda Visitaduría General</option>
+                <option Value="TVG">Tercera Visitaduría General</option>
+                <option Value="CVG">Cuarta Visitaduría General</option>
+                <option Value="DAR">Dirección de Archivo</option>
+                <option Value="DSRCAJ">Dirección de Seguimiento de Recomendaciones, Conciliaciones y Asuntos Jurídicos</option>
+                <option Value="DA">Dirección Administrativa</option>
+                <option Value="DQO">Dirección de Quejas y Orientación</option>
+                <option Value="DPIT">Dirección de Planeación e Innovación Tecnológica</option>
+            </select>
+            <br />
+            <br />
+            <label>Serie Documental : </label><select id="SD" name="SD">
+            </select>
+            <br />
+            <br />
+
+            <!--<button id="GeneraExcel" type="button">Generar Reporte </button>-->
+            <input type="button" name="next" class="save action-button" value="Generar Reporte" id="GeneraExcel" />
+        </form>
+    </div>
+
+    <script>
+        var ExportaDocumento = '@Url.Action("GuardarDocumento", "Home")';
+        var urlListadoSeries = '@Url.Action("listadoseries", "Home")';
+        
+    </script>
+    
+</body>
+</html>
