@@ -857,7 +857,7 @@ function formularioSelect(data, anio, idexp, expediente) {
 
     var ElementosHtml = '';
     ElementosHtml += ` 
-        <h5 class="modal-title">Edición de expediente"${data[0].num_Exp}" del año ${anio}</h5>`;
+        <h5 class="modal-title">Edición de expediente"${expediente}" del año ${anio}</h5>`;
     contenidoNuevo += `
     <div class="row">`;
     if (data[0].observaciones) {
