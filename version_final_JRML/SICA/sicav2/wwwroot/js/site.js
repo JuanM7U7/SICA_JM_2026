@@ -1296,7 +1296,7 @@ function UpdateDocumentos() {
 function datosExpediente(id_serie, siglasUA) {
     $(document).ready(function () {
 
-        // ✅ Se ejecuta CADA VEZ que el usuario ABRE el modal
+        // Se ejecuta CADA VEZ que el usuario ABRE el modal (mantiene ajuste de año dinámico)
         $('#ModalPrueba').off('shown.bs.modal').on('shown.bs.modal', function () {
             var anioSeleccionado = $('#cmbAnio').val() || new Date().getFullYear();
 
@@ -1313,6 +1313,9 @@ function datosExpediente(id_serie, siglasUA) {
             var Estatus = $("#estatus_expedientes").val() || "";
             var ubicacion_expediente = $("#ubicacion_expediente").val() || "";
             var observaciones = $("#observaciones").val() || "";
+
+            // Obtener el texto o valor de la serie seleccionada
+            var textoSerie = $("#serie_documental option:selected").text().trim() || serie_documental;
 
             // Obtener la hora actual en formato HH:mm:ss
             var Horas1 = new Date();
@@ -1346,6 +1349,7 @@ function datosExpediente(id_serie, siglasUA) {
                 },
                 dataType: "JSON",
                 success: function (resp) {
+                    // Si la respuesta es exitosa
                     if (resp.success == 'OK') {
                         Swal.fire({
                             title: 'Correcto',
@@ -1360,7 +1364,12 @@ function datosExpediente(id_serie, siglasUA) {
                             }
                         });
                     }
-                    else if (resp.success == 'DUPLICADO') {
+                    // ✅ Evaluamos '1S.1' en general para cubrir PVG, CVG, etc.
+                    // Además verificamos si el backend devuelve 'DUPLICADO' o un mensaje que contenga 'DUPLICADO'
+                    else if (
+                        (resp.success == 'DUPLICADO' || (resp.message && resp.message.includes('DUPLICADO')))
+                        && textoSerie.includes("1S.1")
+                    ) {
                         Swal.fire({
                             title: 'Asunto Duplicado',
                             text: 'El asunto ingresado ya existe registrado en esta serie documental.',
@@ -1371,7 +1380,7 @@ function datosExpediente(id_serie, siglasUA) {
                     else {
                         Swal.fire({
                             title: 'Advertencia',
-                            text: 'No se pudo completar el registro. Verifique los campos obligatorios (*).',
+                            text: 'No se pudo completar el registro. Verifique que los campos obligatorios (*) estén completos.',
                             icon: 'error',
                             confirmButtonText: 'cerrar'
                         });
