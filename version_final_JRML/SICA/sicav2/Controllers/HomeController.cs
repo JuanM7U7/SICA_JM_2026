@@ -579,6 +579,12 @@ namespace sicav2.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message.ToString());
+
+                // Si el Stored Procedure lanza el error de DUPLICADO, lo retornamos a la vista
+                if (e.Message.Contains("DUPLICADO"))
+                {
+                    return Json(new { success = "DUPLICADO" });
+                }
             }
             return Json(new { success = "Error" });
         }

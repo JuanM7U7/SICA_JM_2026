@@ -1295,48 +1295,40 @@ function UpdateDocumentos() {
 //Función para guardar expedientes
 function datosExpediente(id_serie, siglasUA) {
     $(document).ready(function () {
-        $("#Registrar").on("click", function () {
+
+        // ✅ Se ejecuta CADA VEZ que el usuario ABRE el modal
+        $('#ModalPrueba').off('shown.bs.modal').on('shown.bs.modal', function () {
+            var anioSeleccionado = $('#cmbAnio').val() || new Date().getFullYear();
+
+            // Asigna dinámicamente el min y max del año activo en el combo al input de fecha
+            $("#fecha_inicio").attr("min", `${anioSeleccionado}-01-01`);
+            $("#fecha_inicio").attr("max", `${anioSeleccionado}-12-31`);
+        });
+
+        // Evento de registro de datos
+        $("#Registrar").off("click").on("click", function () {
             // Obtener valores de los campos
-            var serie_documental = $("#serie_documental").val() || ""; // Valor predeterminado vacío
-            var asunto = $("#asunto").val() || ""; // Asunto del expediente
-            var Estatus = $("#estatus_expedientes").val() || ""; // Estatus
-            var ubicacion_expediente = $("#ubicacion_expediente").val() || ""; // Ubicación
-            var observaciones = $("#observaciones").val() || ""; // Observaciones del usuario
+            var serie_documental = $("#serie_documental").val() || "";
+            var asunto = $("#asunto").val() || "";
+            var Estatus = $("#estatus_expedientes").val() || "";
+            var ubicacion_expediente = $("#ubicacion_expediente").val() || "";
+            var observaciones = $("#observaciones").val() || "";
 
             // Obtener la hora actual en formato HH:mm:ss
             var Horas1 = new Date();
             var completo = `${Horas1.getHours()}:${Horas1.getMinutes()}:${Horas1.getSeconds()}`;
-            console.log("Hora actual:", completo);
 
             // Validar y asignar fecha de inicio
             var fecha_inicio = $("#fecha_inicio").val()
                 ? $("#fecha_inicio").val() + " " + completo
                 : "";
-            // Validar y asignar fecha de cierre
+
             var fecha_cierre = $("#fecha_cierre").val()
                 ? $("#fecha_cierre").val() + " " + completo
-                : "1999-01-01 " + completo; // Fecha predeterminada
+                : "1999-01-01 " + completo;
 
             var rol = $('#rolu').text();
             var anio_busqueda = $('#cmbAnio').val();
-
-
-            var data = {
-                serieDocumental: serie_documental,
-                asunto: asunto,
-                fechaInicio: fecha_inicio,
-                fechaCierre: fecha_cierre,
-                estatus: Estatus,
-                ubicacionExpediente: ubicacion_expediente,
-                observacionesUsuario: observaciones,
-                id_Serie: id_serie,
-                siglas_UA: siglasUA
-            }
-
-
-            console.log(Estatus);
-            console.log(id_serie);
-            console.log("UA" + siglasUA);
 
             $.ajax({
                 type: "POST",
@@ -1353,50 +1345,41 @@ function datosExpediente(id_serie, siglasUA) {
                     UA: siglasUA
                 },
                 dataType: "JSON",
-
                 success: function (resp) {
                     if (resp.success == 'OK') {
-                        console.log("Respuesta del servidor:", resp);
                         Swal.fire({
                             title: 'Correcto',
                             text: 'Registro Correcto',
                             icon: 'success',
                             confirmButtonText: 'cerrar'
                         }).then(function () {
-                            // Redirigir al usuario a la vista "Login" desde el controlador "LoinController"
-                            //location.reload();      
-                            //$("#tbl-201_wrapper").load(" #tbl-201_wrapper");
-                            console.log("Hizo el cambio");
-
                             $("#ModalPrueba").modal('hide');
                             recargaTablaExpedientes('alta', siglasUA);
                             if (typeof callback === "function") {
-                                callback(); // ✅ Aquí se ejecuta el callback que actualiza color/contador
+                                callback();
                             }
-                            /*
-                            console.log($('#div-tbl-201').children('div')[0].innerHTML);
-                            var serie = $('#div-tbl-201').children('div')[0].innerHTML + " " + $('#div-tbl-201').children('div')[1].innerHTML;
-                              AggTablaExpedientes(anio_busqueda, siglasUA, 1, id_serie);
-                           */
-
+                        });
+                    }
+                    else if (resp.success == 'DUPLICADO') {
+                        Swal.fire({
+                            title: 'Asunto Duplicado',
+                            text: 'El asunto ingresado ya existe registrado en esta serie documental.',
+                            icon: 'warning',
+                            confirmButtonText: 'cerrar'
                         });
                     }
                     else {
-                        console.log("Respuesta del servidor:", resp);
                         Swal.fire({
-
                             title: 'Advertencia',
-                            text: 'Completar los campos requeridos marcados con un *',
+                            text: 'No se pudo completar el registro. Verifique los campos obligatorios (*).',
                             icon: 'error',
                             confirmButtonText: 'cerrar'
                         });
                     }
                 }
-            })
-            console.log("datos", data);
-
+            });
         });
-    })
+    });
 }
 
 /**Funcion para eliminar expedientes*/
