@@ -1367,8 +1367,9 @@ function datosExpediente(id_serie, siglasUA) {
                     // ✅ Evaluamos '1S.1' en general para cubrir PVG, CVG, etc.
                     // Además verificamos si el backend devuelve 'DUPLICADO' o un mensaje que contenga 'DUPLICADO'
                     else if (
-                        (resp.success == 'DUPLICADO' || (resp.message && resp.message.includes('DUPLICADO')))
+                        resp.success == 'DUPLICADO'
                         && textoSerie.includes("1S.1")
+                        && !textoSerie.includes("1S.1.")
                     ) {
                         Swal.fire({
                             title: 'Asunto Duplicado',
