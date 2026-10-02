@@ -1372,8 +1372,8 @@ function datosExpediente(id_serie, siglasUA) {
                         && !textoSerie.includes("1S.1.")
                     ) {
                         Swal.fire({
-                            title: 'Asunto Duplicado',
-                            text: 'El asunto ingresado ya existe registrado en esta serie documental.',
+                            title: 'Expediente Duplicado',
+                            text: 'El expediente ingresado ya se encuentra registrado en esta serie documental.',
                             icon: 'warning',
                             confirmButtonText: 'cerrar'
                         });
