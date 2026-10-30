@@ -818,6 +818,7 @@ function formularioSelect(data, anio, idexp, expediente) {
         } else {
             if (Inputs[i].divClass == "col-6") {
 
+                // Se ajustó el estilo para que se muestre como bloque debajo del input sin romper el diseño
 
                 if (fechaFormateada2 =="1999-01-01") {
 
