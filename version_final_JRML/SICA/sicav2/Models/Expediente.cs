@@ -21,7 +21,9 @@
         public string Id_Estatus_Expediente_des { get; set; }
         public int Id_Cadido { get; set; }
         public string serieD { get; set; }
-        
+
+        public string servidor_publico_responsable { get; set; }
+
     }
 
     public class Estatus

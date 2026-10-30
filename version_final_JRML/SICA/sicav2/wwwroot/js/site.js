@@ -77,6 +77,11 @@ $(document).ready(function () {
 function contenedorBuscadorGeneral() {
     var contenedor = $('#c-buscador-g');
     contenedor.html(pintarBuscadorGeneral(pintarRbtns(crearArregloRadioButtons())));
+
+    // Justo después de dibujarlo, deshabilitamos el buscador y los radio buttons
+    $('#txtBuscadorG').prop('disabled', true);
+    $('#c-buscador-g fieldset').prop('disabled', true);
+
 }
 
 function crearArregloRadioButtons() {
@@ -96,6 +101,30 @@ function crearArregloRadioButtons() {
 
     return arregloRbtns;  
 }
+
+// 1. Delegación de eventos para escuchar cuando seleccionen el año
+document.addEventListener('change', function (e) {
+    // Verificamos si el elemento que cambió está dentro de tus DropDowns de año
+    if (e.target.closest('#C-DropDown') || e.target.closest('#C-DropDownArea')) {
+
+        let anioSeleccionado = e.target.value;
+        let fieldsetRadios = document.querySelector('#c-buscador-g fieldset');
+        let inputBuscador = document.getElementById('txtBuscadorG');
+
+        if (fieldsetRadios && inputBuscador) {
+            // Si seleccionó un año válido (que no esté vacío)
+            if (anioSeleccionado !== "" && anioSeleccionado !== "0" && anioSeleccionado !== "-1") {
+                fieldsetRadios.disabled = false;
+                inputBuscador.disabled = false;
+            } else {
+                // Si regresó a la opción por defecto ("Seleccione...")
+                fieldsetRadios.disabled = true;
+                inputBuscador.disabled = true;
+            }
+        }
+    }
+});
+
 
 function pintarRbtns(arregloRbtns) {
     var htmld = '<fieldset>';
@@ -818,24 +847,41 @@ function formularioSelect(data, anio, idexp, expediente) {
         } else {
             if (Inputs[i].divClass == "col-6") {
 
+                // Validación para bloquear la fecha si ya fue editada
+                let yaEditado = (data[0].revisado == 1 || data[0].revisado == "1" || data[0].revisado === true);
+                // AGREGA ESTA LÍNEA PARA HACER LA PRUEBA:
+                console.log("¿Está editado?", yaEditado, " | Valor de revisado:", data[0].revisado);
+                let estadoInput = yaEditado ? "disabled" : "";
                 // Se ajustó el estilo para que se muestre como bloque debajo del input sin romper el diseño
+                // Usamos position absolute para que flote debajo sin empujar los demás elementos
+                let mensajeEditado = yaEditado ? `<small class="text-danger fw-bold" style="font-size: 0.79em; color: red; position: absolute; margin-top: 73px; left: 20px;">La fecha de apertura solo puede modificarse una vez</small>` : "";
 
-                if (fechaFormateada2 =="1999-01-01") {
-
+                if (fechaFormateada2 == "1999-01-01") {
                     contenidoNuevo += `
-                <div class="row">
-                        <div class="${Inputs[i].divClass}"><p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText}</p><input id="fecha_inicio" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada}" min="1970-01-01" max="2050-12-31" disabled/></div>
-                        <div class="${Inputs[i].divClass2}"><p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText2}</p><input id="fecha_cierre" type="text" class="${Inputs[i].classInput}" value="${fechaFormateada2}" disabled/></div>
+                    <div class="row">
+                        <div class="${Inputs[i].divClass}">
+                            <p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText} ${mensajeEditado}</p>
+                            <input id="fecha_inicio" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada}" min="1970-01-01" max="2050-12-31" ${estadoInput} />
+                        </div>
+                        <div class="${Inputs[i].divClass2}">
+                            <p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText2}</p>
+                            <input id="fecha_cierre" type="text" class="${Inputs[i].classInput}" value="${fechaFormateada2}" disabled/>
+                        </div>
                     </div>
-                `;
-
+                    `;
                 } else {
                     contenidoNuevo += `
-                <div class="row">
-                        <div class="${Inputs[i].divClass}"><p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText}</p><input id="fecha_inicio" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada}" min="1970-01-01" max="2050-12-31" disabled/></div>
-                        <div class="${Inputs[i].divClass2}"><p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText2}</p><input id="fecha_cierre" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada2}"min="1970-01-01" max="2050-12-31" disabled/></div>
+                    <div class="row">
+                        <div class="${Inputs[i].divClass}">
+                            <p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText} ${mensajeEditado}</p>
+                            <input id="fecha_inicio" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada}" min="1970-01-01" max="2050-12-31" ${estadoInput} />
+                        </div>
+                        <div class="${Inputs[i].divClass2}">
+                            <p class="${Inputs[i].ClassLabel}">${Inputs[i].labelText2}</p>
+                            <input id="fecha_cierre" type="date" class="${Inputs[i].classInput}" value="${fechaFormateada2}" min="1970-01-01" max="2050-12-31" disabled/>
+                        </div>
                     </div>
-                `;
+                    `;
                 }
             }
             else if (Inputs[i].value != "") {
@@ -892,6 +938,17 @@ function formularioSelect(data, anio, idexp, expediente) {
 
     BodyContainer.innerHTML = contenidoNuevo;
     Contenedor.innerHTML = ElementosHtml;
+
+    // ---> alerta de cambio de fecha de apertura <---
+    $("#fecha_inicio").on("change", function () {
+        Swal.fire({
+            title: 'Aviso importante',
+            text: 'Recuerda que la Fecha de apertura solo se puede modificar una sola vez. Al guardar los cambios, este campo quedará bloqueado permanentemente.',
+            icon: 'warning',
+            confirmButtonText: 'Entendido'
+        });
+    });
+    // -----
 
     updateExpediente();
 }
@@ -1334,6 +1391,9 @@ function datosExpediente(id_serie, siglasUA) {
             var rol = $('#rolu').text();
             var anio_busqueda = $('#cmbAnio').val();
 
+            // Obtener el nombre del usuario desde el HTML (Asegúrate de poner el ID correcto)
+            var usuario_responsable = $('.D_Usuario').text().trim();
+
             $.ajax({
                 type: "POST",
                 url: "/Home/AltaExpedientes",
@@ -1346,7 +1406,8 @@ function datosExpediente(id_serie, siglasUA) {
                     ubicacionExpediente: ubicacion_expediente,
                     observacionesUsuario: observaciones,
                     idSerie: id_serie,
-                    UA: siglasUA
+                    UA: siglasUA,
+                    servidorPublico: usuario_responsable // <-- NUEVO DATO ENVIADO AL SERVIDOR
                 },
                 dataType: "JSON",
                 success: function (resp) {
@@ -1380,6 +1441,8 @@ function datosExpediente(id_serie, siglasUA) {
                         });
                     }
                     else {
+                        // 👇 Imprimimos el error real en consola y en la alerta
+                        console.log("Error de SQL:", resp.mensaje_real);
                         Swal.fire({
                             title: 'Advertencia',
                             text: 'No se pudo completar el registro. Verifique que los campos obligatorios (*) estén completos.',
@@ -2393,9 +2456,10 @@ function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, se
         { "title": "Fecha de apertura", "targets": 4 },
         { "title": "Fecha de Cierre", "targets": 5 },
         { "title": "Ubicación", "targets": 6 },
-        { "title": "Docs", "targets": 7 },
-        { "title": "Fojas", "targets": 8 },
-        { "title": "Tipo de Archivo", "targets": 9 }
+        { "title": "Servidor Público Responsable", "targets": 7 }, /* NUEVA COLUMNA */
+        { "title": "Docs", "targets": 8 },
+        { "title": "Fojas", "targets": 9 },
+        { "title": "Estatus", "targets": 10 }
 
     ];
 
@@ -2520,6 +2584,10 @@ function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, se
                         }
                     },
                     { data: 'ubicacion' },
+                    {
+                        data: 'servidor_publico_responsable',
+                        defaultContent: '' // Previene errores si el dato viene nulo o indefinido
+                    }, // <-- NUEVA COLUMNA AQUÍ
                     {
                         'mRender': function (data, type, full) {
                             {
@@ -3001,7 +3069,7 @@ function buscador() {
 
 
 
-//filtrarPorPalabra_Exps realiza el filtrado real de los datos. Adair 06/03/25
+//filtrarPorPalabra_Exps realiza el filtrado real de los datos. 
 function filtrarPorPalabra_Exps(palabra, propiedades) {
     if (!arrayExps || !Array.isArray(arrayExps)) {
         return []; // Retorna un arreglo vacío si arrayExps no es válido
@@ -3024,7 +3092,7 @@ function filtrarPorPalabra_Exps(palabra, propiedades) {
 
 
 
-//AggTablaBuscadorG muestra los resultados en una tabla con capacidades de búsqueda y filtrado adicionales. Adair 06/03/25
+//AggTablaBuscadorG muestra los resultados en una tabla con capacidades de búsqueda y filtrado adicionales. 
 function AggTablaBuscadorG(palabra, propiedades) {
     var arrayExpsCoincidentes = filtrarPorPalabra_Exps(palabra, propiedades);
 
@@ -3036,9 +3104,10 @@ function AggTablaBuscadorG(palabra, propiedades) {
         { "title": "Fecha de apertura", "targets": 4 },
         { "title": "Fecha de cierre", "targets": 5 },
         { "title": "Ubicacion", "targets": 6 },
-        { "title": "Docs", "targets": 7 },
-        { "title": "Fojas", "targets": 8 },
-        { "title": "Tipo de Archivo", "targets": 9 }
+        { "title": "Servidor Público Responsable", "targets": 7 }, /* NUEVA COLUMNA */
+        { "title": "Docs", "targets": 8 },
+        { "title": "Fojas", "targets": 9 },
+        { "title": "Estatus", "targets": 10 }
     ];
 
     var nombreTabla = '#tbl-Resultados';
@@ -3103,6 +3172,12 @@ function AggTablaBuscadorG(palabra, propiedades) {
             { data: 'fecha_Inicio' },
             { data: 'fecha_Cierre' },
             { data: 'ubicacion' },
+            { data: 'servidor_publico_responsable', defaultContent: '' }, // <-- NUEVA COLUMNA AQUÍ
+            {
+                'mRender': function (data, type, full) {
+                    return full ? `${full.legajos}` : '';
+                }
+            },
             {
                 'mRender': function (data, type, full) {
                     return full ? `${full.legajos}` : '';

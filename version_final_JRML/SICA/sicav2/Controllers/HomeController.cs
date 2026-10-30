@@ -438,7 +438,11 @@ namespace sicav2.Controllers
                             UA = dataSet.Tables["ExpPorCodSerie"].Rows[r]["siglas"].ToString(),
                             Id_Estatus_Expediente = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_estatus_expediente"].ToString()),
                             Id_Estatus_Expediente_des = dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_estatus_expediente_des"].ToString(),
-                            Id_Cadido = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_cadido"].ToString())
+                            Id_Cadido = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_cadido"].ToString()),
+
+                            // se AGREGA ESTA LÍNEA:
+                            servidor_publico_responsable = dataSet.Tables["ExpPorCodSerie"].Rows[r]["servidor_publico_responsable"].ToString()
+
                         });
                     }
                    
@@ -525,7 +529,7 @@ namespace sicav2.Controllers
         }
         // Función para guardar los expedientes...!
         [HttpPost]
-        public ActionResult AltaExpedientes(string serieDocumental, string asunto, DateTime fechaInicio, DateTime fechaCierre, int Estatus, string ubicacionExpediente, string observacionesUsuario, int idSerie, string UA)
+        public ActionResult AltaExpedientes(string serieDocumental, string asunto, DateTime fechaInicio, DateTime fechaCierre, int Estatus, string ubicacionExpediente, string observacionesUsuario, int idSerie, string UA, string servidorPublico)
         {
             string[] codigoSerie = new string[5];
 
@@ -555,6 +559,9 @@ namespace sicav2.Controllers
                     cmd.Parameters.AddWithValue("@observaciones_expediente", obsrervacionesUusarioF).SqlDbType = SqlDbType.VarChar;
                     cmd.Parameters.AddWithValue("@siglas", UA).SqlDbType = SqlDbType.VarChar;
                     cmd.Parameters.AddWithValue("@serieParaCadido", idSerie).SqlDbType = SqlDbType.Int;
+
+                    // 2. NUEVA LÍNEA: Enviar el parámetro al SQL
+                    cmd.Parameters.AddWithValue("@servidor_publico_responsable", servidorPublico ?? "").SqlDbType = SqlDbType.VarChar;
                     //  connection.Open()ddd;
                     cmd.ExecuteNonQuery();
 
@@ -585,6 +592,7 @@ namespace sicav2.Controllers
                 {
                     return Json(new { success = "DUPLICADO" });
                 }
+               
             }
             return Json(new { success = "Error" });
         }
@@ -739,7 +747,10 @@ namespace sicav2.Controllers
                             Ubicacion = dataSet.Tables["ResultExpediente"].Rows[r]["ubicacion"].ToString(),
                             Observaciones = dataSet.Tables["ResultExpediente"].Rows[r]["observaciones"].ToString(),
                             Id_Estatus_Expediente = Convert.ToInt32(dataSet.Tables["ResultExpediente"].Rows[r]["id_estatus_expediente"].ToString()),
-                            serieD = dataSet.Tables["ResultExpediente"].Rows[r]["serieD"].ToString()
+                            serieD = dataSet.Tables["ResultExpediente"].Rows[r]["serieD"].ToString(),
+
+                            // ESTA ES LA LÍNEA NUEVA QUE EXTRAE EL 1 O EL 0 DE SQL SERVER
+                             Revisado = dataSet.Tables["ResultExpediente"].Rows[r]["revisado"] != DBNull.Value ? Convert.ToInt32(dataSet.Tables["ResultExpediente"].Rows[r]["revisado"]) : 0
                         });
                     }
 
