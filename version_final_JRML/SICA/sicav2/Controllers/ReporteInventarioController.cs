@@ -44,13 +44,13 @@ namespace Reporte_Inventario_Documental.Controllers
 
                 if (T == "General")
                 {
-                    mensajet = GeneraExcelGeneral("/Formatos/Inventario_General_Archivo_Documental_SICA_new.xlsm");
+                    mensajet = GeneraExcelGeneral("/Formatos/Formato_inventario_documental_SICA.xlsm");
                 }
                 else if (T == "Por_Area")
                 {
                     A = form["AR"].ToString(); parametros[0] = A;
 
-                    mensajet = GeneraExcelIndividual("/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm", "Por_Area", parametros);
+                    mensajet = GeneraExcelIndividual("/Formatos/Formato_inventario_documental_SICA.xlsm", "Por_Area", parametros);
 
                 }
                 else if (T == "Por_Area_Serie_Documental")
@@ -58,7 +58,7 @@ namespace Reporte_Inventario_Documental.Controllers
                     A = form["AR"].ToString(); S = form["SD"].ToString();
                     parametros[0] = A; parametros[1] = S;
 
-                    mensajet = GeneraExcelIndividual("/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm", "Por_Area_Serie_Documental", parametros);
+                    mensajet = GeneraExcelIndividual("/Formatos/Formato_inventario_documental_SICA.xlsm", "Por_Area_Serie_Documental", parametros);
                 }
 
                 return Json(new { mensaje = "ok", rutaArchivo = mensajet });

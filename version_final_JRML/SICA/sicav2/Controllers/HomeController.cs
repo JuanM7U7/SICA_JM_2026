@@ -19,6 +19,8 @@ using ClosedXML.Excel;
 using System.Security.Policy;
 using System;
 using DocumentFormat.OpenXml.Office.Word;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.IO;
 
 
 namespace sicav2.Controllers
@@ -434,15 +436,15 @@ namespace sicav2.Controllers
                             Ubicacion = dataSet.Tables["ExpPorCodSerie"].Rows[r]["ubicacion"].ToString(),
                             Revisado = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["revisado"].ToString()),
                             Eliminar = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["eliminar"].ToString()),
-                            Firma = dataSet.Tables["ExpPorCodSerie"].Rows[r]["firma"].ToString(),
+                            //Firma = dataSet.Tables["ExpPorCodSerie"].Rows[r]["firma"].ToString(),
                             UA = dataSet.Tables["ExpPorCodSerie"].Rows[r]["siglas"].ToString(),
                             Id_Estatus_Expediente = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_estatus_expediente"].ToString()),
                             Id_Estatus_Expediente_des = dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_estatus_expediente_des"].ToString(),
                             Id_Cadido = Convert.ToInt32(dataSet.Tables["ExpPorCodSerie"].Rows[r]["id_cadido"].ToString()),
 
                             // se AGREGA ESTA LÍNEA:
-                            servidor_publico_responsable = dataSet.Tables["ExpPorCodSerie"].Rows[r]["servidor_publico_responsable"].ToString()
-
+                            servidor_publico_responsable = dataSet.Tables["ExpPorCodSerie"].Rows[r]["servidor_publico_responsable"].ToString(),
+                            Firma = dataSet.Tables["ExpPorCodSerie"].Rows[r]["firma"].ToString()
                         });
                     }
                    
@@ -461,7 +463,37 @@ namespace sicav2.Controllers
 
             return Json(new { status = "error" });
         }
+        // 👇 NUEVO MÉTODO PARA GUARDAR EL TIPO DE ARCHIVO EN LA BD ESTA COMO "FIRMA" 👇
+        [HttpPost]
+        public ActionResult ActualizarFirma(int idExp, string valorFirma)
+        {
+            try
+            {
+                using SqlConnection connection = Conector.Connection();
+                if (connection != null)
+                {
+                    SqlCommand cmd = connection.CreateCommand();
 
+                    // Actualizamos la columna 'firma'
+                    cmd.CommandText = "UPDATE [sica_v2].[dbo].[expediente] SET firma = @valorFirma WHERE id_exp = @idExp";
+                    cmd.CommandType = System.Data.CommandType.Text;
+
+                    cmd.Parameters.AddWithValue("@valorFirma", valorFirma).SqlDbType = SqlDbType.VarChar;
+                    cmd.Parameters.AddWithValue("@idExp", idExp).SqlDbType = SqlDbType.Int;
+
+                    cmd.ExecuteNonQuery();
+
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error al actualizar firma: " + e.Message);
+                return Json(new { success = false, mensaje = e.Message });
+            }
+
+            return Json(new { success = false, mensaje = "No se pudo conectar a la base de datos." });
+        }
 
         public ActionResult ObtenerDocumentosPorExpediente(string expediente)
         {
@@ -1079,14 +1111,14 @@ namespace sicav2.Controllers
                 if (T == "General")
                 {
                     //mensajet = DescargarExcel("/Formatos/Inventario_General_Archivo_Documental_SICA_new.xlsm").ToString();
-                    mensajet = Url.Action("DescargarExcel", "Home", new { ruta = "/Formatos/Inventario_General_Archivo_Documental_SICA_MODIF.xlsm" });
+                    mensajet = Url.Action("DescargarExcel", "Home", new { ruta = "/Formatos/Formato_inventario_documental_SICA.xlsm" });
                     mensaje = "ok";
                 }
                 else if (T == "Por_Area")
                 {
                     A = form["AR"].ToString(); parametros[0] = A;
 
-                    mensajet = Url.Action("GeneraExcelIndividual", "Home", new { ruta= "/Formatos/Inventario_Archivo_Documental_SICA_MODIF.xlsm", TR = T, AR = A });
+                    mensajet = Url.Action("GeneraExcelIndividual", "Home", new { ruta= "/Formatos/Formato_inventario_documental_SICA.xlsm", TR = T, AR = A });
                     if (parametros[0] != "0" )
                         mensaje = "ok";
                     else
@@ -1098,7 +1130,7 @@ namespace sicav2.Controllers
                     parametros[0] = A; parametros[1] = S;
 
                     // mensajet = GeneraExcelIndividual("/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm", "Por_Area_Serie_Documental", parametros);
-                    mensajet = Url.Action("GeneraExcelIndividual", "Home", new { ruta = "/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm", TR = T, parametros});
+                    mensajet = Url.Action("GeneraExcelIndividual", "Home", new { ruta = "/Formatos/Formato_inventario_documental_SICA.xlsm", TR = T, parametros});
                     mensaje = "ok";
                 }
 
@@ -1227,7 +1259,7 @@ namespace sicav2.Controllers
         //        {
         //            Console.WriteLine(ex.Message);
         //        }
- 
+
         //        //string nombreArchivo = $"ReporteGeneral_{localDate:dd_MM-yyyy_HHmmss}.xlsx";
         //        //workbook.SaveToFile(ruta + "ReporteGeneral_" + localDate.Day + "_" + localDate.Month + "-" + localDate.Minute + ".xlsx");
         //        //string ruta = rutaGuardar + "ReporteGeneral_" + localDate.Day + "_" + localDate.Month + "-" + localDate.Minute + ".xlsx";
@@ -1243,97 +1275,74 @@ namespace sicav2.Controllers
         //    }
         //}
 
-        public ActionResult DescargarExcel(string rutaArchivo)
+        // SIN [HttpPost] para que acepte tanto las redirecciones GET de GeneraExcel como peticiones POST
+        public ActionResult DescargarExcel(string rutaArchivo, string ruta)
         {
-            int HojaEditar = 0;
-            //Workbook workbook = new Workbook();
-
             try
             {
+                // Aceptamos el nombre de parámetro que venga ('rutaArchivo' o 'ruta')
+                string archivoFinal = !string.IsNullOrEmpty(rutaArchivo) ? rutaArchivo : ruta;
+
+                // Buscador inteligente de la plantilla en C:\Formatos\
+                if (!System.IO.File.Exists(archivoFinal))
+                {
+                    string xlsx = System.IO.Path.ChangeExtension(archivoFinal, ".xlsx");
+                    string doble = archivoFinal + ".xlsx";
+                    string original = @"C:\Formatos\Formato inventario documental.xlsx";
+
+                    if (System.IO.File.Exists(xlsx)) archivoFinal = xlsx;
+                    else if (System.IO.File.Exists(doble)) archivoFinal = doble;
+                    else if (System.IO.File.Exists(original)) archivoFinal = original;
+                }
+
                 using (var workbook = new Workbook())
                 {
-                    /**/
-                    try
+                    workbook.LoadFromFile(archivoFinal);
+
+                    // Buscamos la pestaña del nuevo formato ("Formato_Inventario_Doc") o la primera hoja
+                    Worksheet worksheet = null;
+                    try { worksheet = workbook.Worksheets["Formato_Inventario_Doc"]; } catch { }
+                    if (worksheet == null) worksheet = workbook.Worksheets[0];
+
+                    DateTime dtime = DateTime.Now;
+                    worksheet.Range["L6"].Value = $"{dtime:dd/MM/yyyy}";
+                    worksheet.Range["C15"].Value = "INVENTARIO GENERAL (TODAS LAS ÁREAS)";
+                    worksheet.Range["C16"].Value = "TODAS LAS ÁREAS";
+
+                    System.Data.DataTable dtS = new System.Data.DataTable();
+                    using (SqlConnection connf = new SqlConnection("Data Source=158.23.88.159,1435;Initial Catalog=sica_v2;User Id=DPIT_DESARROLLO1;Password=Cdhp2022*-+;TrustServerCertificate=True;"))
                     {
-                        string unidadAdminSig = "";
-                        int contadorUnidadAadmin = 1;
-                        workbook.LoadFromFile(rutaArchivo);
-                        Worksheet worksheet = workbook.Worksheets[HojaEditar];
-                        MemoryStream ms = new MemoryStream();
-                        DateTime dtime; dtime = DateTime.Now;
-                        worksheet.Range[1, 24].Value = dtime.Year + "-" + dtime.Month + "-" + dtime.Day + "";
+                        SqlCommand cmd1 = new SqlCommand();
+                        cmd1.CommandType = CommandType.StoredProcedure;
+                        cmd1.CommandText = "Sp_Turnos_PendientesGeneral";
+                        cmd1.CommandTimeout = 0;
+                        cmd1.Connection = connf;
+                        connf.Open();
 
-                        int rowIndex = 5;/*Inicio de la carga de Información*/
-                        int ColIndex = 1;
-                        int ColIndex1 = 26;
-
-                        System.Data.DataTable dtS = new System.Data.DataTable();
-                        using (SqlConnection connf = new SqlConnection("Data Source=158.23.88.159,1435;Initial Catalog=sica_v2;User Id=DPIT_DESARROLLO1;Password=Cdhp2022*-+;TrustServerCertificate=True;"))
-                        {
-                            SqlCommand cmd1 = new SqlCommand();
-                            cmd1.CommandType = CommandType.StoredProcedure;
-                            cmd1.CommandText = "Sp_Turnos_PendientesGeneral";
-                            //cmd1.Parameters.Add("id_cadido", SqlDbType.Int ).Value = 0;
-                            cmd1.Connection = connf;
-                            connf.Open();
-
-                            SqlDataAdapter da = new SqlDataAdapter(cmd1);
-                            da.Fill(dtS);
-                            da.Dispose();
-
-                        } //JuanM
-
-                        int columnasS = dtS.Columns.Count;
-                        int rowS = dtS.Rows.Count;
-                        /*Tercer Ciclo*/
-                        for (int u = 0; u < rowS; u++)
-                        {
-
-                            string areaActual = dtS.Rows[u][1].ToString();
-
-                            // Si es el primer registro o cambió el área, reiniciamos a 1
-                            if (string.IsNullOrEmpty(unidadAdminSig) || unidadAdminSig != areaActual)
-                            {
-                                contadorUnidadAadmin = 1;
-                            }
-                            else
-                            {
-                                contadorUnidadAadmin++;
-                            }
-                            /*Cuarto Ciclo*/
-                            for (int p = 0; p < 27 /*columnasS*/; p++)
-                            {
-                                if (p == 0)
-                                {
-                                    // Omitimos la primera columna del SP ya que calculamos el contador en C#
-                                }
-                                else
-                                {
-                                    if (ColIndex > 2)
-                                    {
-                                        worksheet.Range[rowIndex, ColIndex + 1].Value = dtS.Rows[u][p].ToString();
-                                        worksheet.Range[rowIndex, 1].Value = contadorUnidadAadmin.ToString();
-                                    }
-                                    else
-                                    {
-                                        worksheet.Range[rowIndex, ColIndex].Value = dtS.Rows[u][p].ToString();
-                                        worksheet.Range[rowIndex, 1].Value = contadorUnidadAadmin.ToString();
-                                    }
-                                }
-                                ColIndex++;
-                               
-                            }
-                            // CLAVE: Guardamos el área actual para compararla con la fila que viene en la siguiente vuelta
-                            unidadAdminSig = areaActual;
-
-                            rowIndex++;
-                            ColIndex = 1;
-                        }
-                        ms.Flush();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd1);
+                        da.Fill(dtS);
+                        da.Dispose();
                     }
-                    catch (Exception ex)
+
+                    // El nuevo formato tiene exactamente 14 columnas (A a N)
+                    while (dtS.Columns.Count > 14)
                     {
-                        Console.WriteLine(ex.Message);
+                        dtS.Columns.RemoveAt(dtS.Columns.Count - 1);
+                    }
+
+                    int totalFilas = dtS.Rows.Count;
+                    if (totalFilas > 0)
+                    {
+                        // Si hay más de 53 registros, empujamos hacia abajo la fila 81 (Hoja de cierre y firmas)
+                        if (totalFilas > 53)
+                        {
+                            worksheet.InsertRow(50, totalFilas - 53, InsertOptionsType.FormatAsBefore);
+                        }
+                        worksheet.InsertDataTable(dtS, false, 28, 1);
+                    }
+                    else
+                    {
+                        worksheet.Range["A28"].Text = "No se encontraron registros.";
                     }
 
                     using (var ms = new MemoryStream())
@@ -1342,115 +1351,136 @@ namespace sicav2.Controllers
                         ms.Position = 0;
 
                         string nombreArchivo = $"ReporteGeneral_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx";
-
-                        return File(ms.ToArray(),
-                                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                    nombreArchivo);
+                        return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
                     }
                 }
             }
             catch (Exception ex)
             {
-
-                return Json(new { mensaje = "false", rutaArchivot = ex });
+                Response.StatusCode = 500;
+                return Content("Error en servidor (General): " + ex.Message);
             }
         }
 
-        [HttpPost]
-        public ActionResult GeneraExcelIndividual(string rutaFisicaDocumento, string TipoReporte, string[] ValorTipoReporte)
+        // SIN [HttpPost] y aceptando tanto los parámetros de AJAX como los de GeneraExcel (ruta, TR, AR, parametros)
+        public ActionResult GeneraExcelIndividual(
+            string rutaFisicaDocumento, string TipoReporte, string[] ValorTipoReporte,
+            string ruta, string TR, string AR, string[] parametros)
         {
             try
             {
+                // Unificamos los parámetros vengan de donde vengan
+                string archivoFinal = !string.IsNullOrEmpty(rutaFisicaDocumento) ? rutaFisicaDocumento : ruta;
+                string tipoRepFinal = !string.IsNullOrEmpty(TipoReporte) ? TipoReporte : TR;
+
+                string siglaArea = "";
+                string serieDoc = "";
+
+                if (ValorTipoReporte != null && ValorTipoReporte.Length > 0)
+                {
+                    siglaArea = ValorTipoReporte[0];
+                    if (ValorTipoReporte.Length > 1) serieDoc = ValorTipoReporte[1];
+                }
+                else if (parametros != null && parametros.Length > 0)
+                {
+                    siglaArea = parametros[0];
+                    if (parametros.Length > 1) serieDoc = parametros[1];
+                }
+                else if (!string.IsNullOrEmpty(AR))
+                {
+                    siglaArea = AR;
+                }
+
+                // Buscador inteligente de la plantilla en C:\Formatos\
+                if (!System.IO.File.Exists(archivoFinal))
+                {
+                    string xlsx = System.IO.Path.ChangeExtension(archivoFinal, ".xlsx");
+                    string doble = archivoFinal + ".xlsx";
+                    string original = @"C:\Formatos\Formato inventario documental.xlsx";
+
+                    if (System.IO.File.Exists(xlsx)) archivoFinal = xlsx;
+                    else if (System.IO.File.Exists(doble)) archivoFinal = doble;
+                    else if (System.IO.File.Exists(original)) archivoFinal = original;
+                }
+
                 using (var workbook = new Workbook())
                 {
-                    string nombreArchivo = "";
-                    string rutaArchivo = rutaFisicaDocumento;
+                    workbook.LoadFromFile(archivoFinal);
 
-                    workbook.LoadFromFile(rutaArchivo);
-                    Worksheet worksheet = workbook.Worksheets[0]; // Hoja principal
+                    Worksheet worksheet = null;
+                    try { worksheet = workbook.Worksheets["Formato_Inventario_Doc"]; } catch { }
+                    if (worksheet == null) worksheet = workbook.Worksheets[0];
 
-                    MemoryStream ms = new MemoryStream();
                     DateTime dtime = DateTime.Now;
-
-                    worksheet.Range[1, 23].Value = dtime.Year + "-" + dtime.Month + "-" + dtime.Day + "";
-                    worksheet.Range[2, 5].Value = ValorTipoReporte[0]; /*FECHA_GENERADORA*/
-
-                    try
+                    worksheet.Range["L6"].Value = $"{dtime:dd/MM/yyyy}";
+                    worksheet.Range["C15"].Value = siglaArea;
+                    worksheet.Range["C16"].Value = siglaArea;
+                    if (!string.IsNullOrEmpty(serieDoc))
                     {
-                        System.Data.DataTable dtS = new System.Data.DataTable();
-
-                        using (SqlConnection connf = new SqlConnection("Data Source=158.23.88.159,1435;Initial Catalog=sica_v2;User Id=DPIT_DESARROLLO1;Password=Cdhp2022*-+;TrustServerCertificate=True;"))
-                        {
-                            SqlCommand cmd1 = new SqlCommand();
-                            cmd1.CommandType = CommandType.StoredProcedure;
-                            cmd1.CommandTimeout = 0; // Tiempo infinito para que no truene por bulto
-
-                            if (TipoReporte == "Por_Area")
-                            {
-                                cmd1.CommandText = "Sp_Turnos_PendientesIndividual_area";
-                                cmd1.Parameters.Add("siglas", SqlDbType.VarChar, 10).Value = ValorTipoReporte[0];
-                            }
-                            else if (TipoReporte == "Por_Area_Serie_Documental")
-                            {
-                                cmd1.CommandText = "Sp_Turnos_PendientesIndividual_AREA_SERIE";
-                                cmd1.Parameters.Add("siglas", SqlDbType.VarChar, 10).Value = ValorTipoReporte[0];
-                                cmd1.Parameters.Add("serie", SqlDbType.VarChar, 15).Value = ValorTipoReporte[1];
-                            }
-
-                            cmd1.Connection = connf;
-                            connf.Open();
-                            SqlDataAdapter da = new SqlDataAdapter(cmd1);
-                            da.Fill(dtS);
-                            da.Dispose();
-                        }
-                        while (dtS.Columns.Count > 27)
-                        {
-                            dtS.Columns.RemoveAt(dtS.Columns.Count - 1);
-                        }
-
-                        // Insertamos TODO el bulto de datos completo (sin importar si son 100 o 10,000 registros)
-                        // de un solo golpe en la hoja principal, arrancando desde la fila 10.
-                        if (dtS.Rows.Count > 0)
-                        {
-                            worksheet.InsertDataTable(dtS, false, 10, 1);
-                        }
-                        else
-                        {
-                            // Por si acaso el query llega a venir vacío con los filtros seleccionados,
-                            // evitamos que quede raro y dejamos un aviso debajo del encabezado.
-                            worksheet.Range["A10"].Text = "No se encontraron registros para los filtros seleccionados.";
-                        }
-
-                        ms.Flush();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
+                        worksheet.Range["C22"].Value = serieDoc;
                     }
 
-                    workbook.SaveToStream(ms, FileFormat.Version2016);
-                    ms.Position = 0;
-
-                    if (TipoReporte == "Por_Area")
+                    System.Data.DataTable dtS = new System.Data.DataTable();
+                    using (SqlConnection connf = new SqlConnection("Data Source=158.23.88.159,1435;Initial Catalog=sica_v2;User Id=DPIT_DESARROLLO1;Password=Cdhp2022*-+;TrustServerCertificate=True;"))
                     {
-                        nombreArchivo = $"ReportePorArea_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx";
+                        SqlCommand cmd1 = new SqlCommand();
+                        cmd1.CommandType = CommandType.StoredProcedure;
+                        cmd1.CommandTimeout = 0;
+
+                        if (tipoRepFinal == "Por_Area")
+                        {
+                            cmd1.CommandText = "Sp_Turnos_PendientesIndividual_area";
+                            cmd1.Parameters.Add("siglas", SqlDbType.VarChar, 150).Value = siglaArea;
+                        }
+                        else if (tipoRepFinal == "Por_Area_Serie_Documental")
+                        {
+                            cmd1.CommandText = "Sp_Turnos_PendientesIndividual_AREA_SERIE";
+                            cmd1.Parameters.Add("siglas", SqlDbType.VarChar, 150).Value = siglaArea;
+                            cmd1.Parameters.Add("serie", SqlDbType.VarChar, 150).Value = serieDoc;
+                        }
+
+                        cmd1.Connection = connf;
+                        connf.Open();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd1);
+                        da.Fill(dtS);
+                        da.Dispose();
                     }
-                    else if (TipoReporte == "Por_Area_Serie_Documental")
+
+                    while (dtS.Columns.Count > 14)
                     {
-                        nombreArchivo = $"ReportePorAreaSerieDocumental_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx";
+                        dtS.Columns.RemoveAt(dtS.Columns.Count - 1);
                     }
 
-                    byte[] fileBytes = ms.ToArray();
-                    ms.Dispose();
+                    int totalFilas = dtS.Rows.Count;
+                    if (totalFilas > 0)
+                    {
+                        if (totalFilas > 53)
+                        {
+                            worksheet.InsertRow(50, totalFilas - 53, InsertOptionsType.FormatAsBefore);
+                        }
+                        worksheet.InsertDataTable(dtS, false, 28, 1);
+                    }
+                    else
+                    {
+                        worksheet.Range["A28"].Text = "No se encontraron registros para los filtros seleccionados.";
+                    }
 
-                    return File(fileBytes,
-                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                nombreArchivo);
+                    string nombreArchivo = (tipoRepFinal == "Por_Area")
+                        ? $"ReportePorArea_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx"
+                        : $"ReportePorAreaSerieDocumental_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx";
+
+                    using (var ms = new MemoryStream())
+                    {
+                        workbook.SaveToStream(ms, FileFormat.Version2016);
+                        ms.Position = 0;
+                        return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { mensaje = "false", rutaArchivot = "" });
+                Response.StatusCode = 500;
+                return Content("Error en servidor (Individual): " + ex.Message);
             }
         }
 
@@ -1587,7 +1617,58 @@ namespace sicav2.Controllers
             }
         }
 
+        public IActionResult CadidoSoloPagina()
+        {
+            var rol = User.FindFirst("rol")?.Value?.Trim() ?? "";
+            var siglas = User.FindFirst("Siglas")?.Value?.Trim() ?? "";
 
+            var rutaOriginal = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pdf", "CADIDO_CDH_PUEBLA.pdf");
+            // Si el usuario tiene rol 1, devolvemos el CADIDO completo
+            if (rol == "Administrador")
+            {
+                var bytesCompletos = System.IO.File.ReadAllBytes(rutaOriginal);
+                return File(bytesCompletos, "application/pdf");
+            }
+
+            // Índice base 0: página 1 del PDF = 0, página 15 del PDF = 14
+            var indicePaginaPorSigla = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "PRE", 0 },
+                    { "DARP", 1 },
+                    { "OIC", 2 },
+                    { "UT", 3 },
+                    { "STE", 4 },
+                    { "IIEDH", 5 },
+                    { "PVG", 6 },
+                    { "SVG", 7 },
+                    { "TVG", 8 },
+                    { "CVG", 9 },
+                    { "DAR", 10 },
+                    { "DSRCAJ", 11 },
+                    { "DA", 12 },
+                    { "DQO", 13 },
+                    { "DPIT", 14 }
+                };
+
+            //var rutaOriginal = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pdf", "CADIDO_CDH_PUEBLA.pdf");
+
+            using var docOriginal = PdfReader.Open(rutaOriginal, PdfDocumentOpenMode.Import);
+
+            if (!indicePaginaPorSigla.TryGetValue(siglas, out int indicePagina) ||
+                indicePagina < 0 || indicePagina >= docOriginal.PageCount)
+            {
+                var bytesCompletos = System.IO.File.ReadAllBytes(rutaOriginal);
+                return File(bytesCompletos, "application/pdf");
+            }
+
+            using var docFiltrado = new PdfDocument();
+            docFiltrado.AddPage(docOriginal.Pages[indicePagina]);
+
+            using var stream = new MemoryStream();
+            docFiltrado.Save(stream, false);
+
+            return File(stream.ToArray(), "application/pdf");
+        }
 
 
     }

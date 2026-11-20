@@ -56,11 +56,10 @@
 
                     <a class="reporteButton" asp-controller="Home" asp-action="reporteInventario">Reporte de Inventario Documental</a>
 
-                   <p id="abrirDocumento" class="CadidoButton">CADIDO</p>
+                <p id="abrirDocumento" class="CadidoButton">CADIDO</p>
                 <script>
                     document.getElementById("abrirDocumento").addEventListener("click", function () {
-                        // Asegúrate de que la ruta del documento sea correcta
-                        window.open("/pdf/CADIDO_CDH_PUEBLA.pdf", "_blank");
+                        window.open('@Url.Action("CadidoSoloPagina", "Home")', "_blank");
                     });
                 </script>
 

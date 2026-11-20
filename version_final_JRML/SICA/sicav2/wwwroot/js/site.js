@@ -2444,7 +2444,8 @@ function DocEliminar(idDocumento, codig) {
 
 function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, serie) {
     tB = tipobusqueda;
-
+    var rol = $('#rolu').text().trim(); // <-- Obtenemos el rol del usuario
+    console.log('rol de usuario: ' + rol);
 
     var rol = $('#rolu').text();
     console.log('rol de usuario: ' + rol);
@@ -2459,7 +2460,8 @@ function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, se
         { "title": "Servidor Público Responsable", "targets": 7 }, /* NUEVA COLUMNA */
         { "title": "Docs", "targets": 8 },
         { "title": "Fojas", "targets": 9 },
-        { "title": "Estatus", "targets": 10 }
+        { "title": "Estatus", "targets": 10 },
+        { "title": "Tipo de Archivo", "targets": 11 }  /* NUEVA COLUMNA */
 
     ];
 
@@ -2618,7 +2620,28 @@ function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, se
                             return `<span id="${cellId}">${full.id_Estatus_Expediente_des || "Cargando..."}</span>`;
                         },
                         className: 'tipo-archivo-col'
+                    },
+                    {
+                        data: 'firma',
+                        defaultContent: '',
+                        render: function (data, type, full) {
+                            // Convertimos el dato a string o número para compararlo con total seguridad
+                            let valorFirma = String(data).trim();
+                            let isChecked = (valorFirma === '1' || valorFirma === 'true' || valorFirma === 'En concentración DAR') ? 'checked' : '';
+
+                            let disabledAttr = (rol === 'Administrador' || rol === '1') ? '' : 'disabled';
+
+                            return `
+                            <div style="white-space: nowrap; text-align: left;">
+                                <input type="checkbox" class="check-tipo-archivo" data-id="${full.idExp}" ${isChecked} ${disabledAttr} style="cursor: pointer; transform: scale(1.2);">
+                                <label style="margin-left: 5px; cursor: pointer;">En concentración DAR</label>
+                            </div>
+                            `;
+                        },
+                        orderable: false
                     }
+                    // 👆 AQUÍ TERMINA LA NUEVA COLUMNA 👆
+
                 ],
                 order: [1, 'desc'],
                 initComplete: function () {
@@ -2791,8 +2814,45 @@ function AggTablaExpedientes(anio_busqueda, siglasUA, id_Serie, tipobusqueda, se
                         $(this).removeClass('sorting sorting_desc sorting_asc');
                         $(this).off('click');
                     }));
+                    // EVENTO PARA GUARDAR 1 o 0 EN TIEMPO REAL
+                    $(nombreTabla + ' tbody').on('change', '.check-tipo-archivo', function () {
+                        let checkbox = $(this);
+                        let idExpediente = checkbox.data('id');
+                        let valorSeleccionado = checkbox.is(':checked') ? '1' : '0';
 
-                },
+                        $.ajax({
+                            type: "POST",
+                            url: "/Home/ActualizarFirma",
+                            data: {
+                                idExp: idExpediente,
+                                valorFirma: valorSeleccionado
+                            },
+                            dataType: "JSON",
+                            success: function (resp) {
+                                if (resp.success) {
+                                    console.log("Guardado en BD correctamente:", valorSeleccionado);
+
+                                    // 🔥 ACTUALIZAMOS EL VALOR EN LA FILA DE DATATABLES EN MEMORIA
+                                    let tr = checkbox.closest('tr');
+                                    if (tr.hasClass('child')) tr = tr.prev();
+                                    let row = table.row(tr);
+                                    if (row.data()) {
+                                        row.data().firma = valorSeleccionado;
+                                    }
+                                } else {
+                                    Swal.fire('Error', 'No se pudo guardar: ' + resp.mensaje, 'error');
+                                    // Si falla, revertimos el checkbox visualmente
+                                    checkbox.prop('checked', !checkbox.is(':checked'));
+                                }
+                            },
+                            error: function () {
+                                Swal.fire('Error', 'Falla de conexión con el servidor', 'error');
+                                checkbox.prop('checked', !checkbox.is(':checked'));
+                            }
+                        });
+                    });
+                }, // 👈 Fin de initComplete
+
             });
 
 
@@ -3095,6 +3155,7 @@ function filtrarPorPalabra_Exps(palabra, propiedades) {
 //AggTablaBuscadorG muestra los resultados en una tabla con capacidades de búsqueda y filtrado adicionales. 
 function AggTablaBuscadorG(palabra, propiedades) {
     var arrayExpsCoincidentes = filtrarPorPalabra_Exps(palabra, propiedades);
+    var rol = $('#rolu').text().trim(); // <-- Obtenemos el rol del usuario
 
     var titulos = [
         { "title": "Tareas", "targets": 0 },
@@ -3107,7 +3168,8 @@ function AggTablaBuscadorG(palabra, propiedades) {
         { "title": "Servidor Público Responsable", "targets": 7 }, /* NUEVA COLUMNA */
         { "title": "Docs", "targets": 8 },
         { "title": "Fojas", "targets": 9 },
-        { "title": "Estatus", "targets": 10 }
+        { "title": "Estatus", "targets": 10 },
+        { "title": "Tipo de Archivo", "targets": 11 }  /* NUEVA COLUMNA */
     ];
 
     var nombreTabla = '#tbl-Resultados';
@@ -3184,7 +3246,26 @@ function AggTablaBuscadorG(palabra, propiedades) {
                 }
             },
             { data: 'fojas' },
-            { data: 'id_Estatus_Expediente_des' }
+            { data: 'id_Estatus_Expediente_des' },
+            {
+                data: 'firma',
+                defaultContent: '',
+                render: function (data, type, full) {
+                    // Validamos de forma estricta si viene '1', true, o el texto de concentración
+                    let isChecked = (data === '1' || data === 1 || data === true || data === 'En concentración DAR') ? 'checked' : '';
+
+                    // Bloqueo por rol: Si NO es Administrador (o rol 1), se deshabilita
+                    let disabledAttr = (rol === 'Administrador' || rol === '1') ? '' : 'disabled';
+
+                    return `
+                            <div style="white-space: nowrap; text-align: left;">
+                                <input type="checkbox" class="check-tipo-archivo" data-id="${full.idExp}" ${isChecked} ${disabledAttr} style="cursor: pointer; transform: scale(1.2);">
+                                <label style="margin-left: 5px; cursor: pointer;">En concentración DAR</label>
+                            </div>
+                            `;
+                },
+                orderable: false
+            }
         ],
         order: [1, 'desc'],
         bDestroy: true,
@@ -3245,6 +3326,44 @@ function AggTablaBuscadorG(palabra, propiedades) {
                 $(this).removeClass('sorting');
                 $(this).removeClass('sorting_desc');
                 $(this).off('click');
+            });
+            // 🔥 EVENTO PARA GUARDAR 1 o 0 EN TIEMPO REAL (AHORA SÍ BIEN UBICADO ADENTRO)
+            // EVENTO PARA GUARDAR 1 o 0 EN TIEMPO REAL
+            $(nombreTabla + ' tbody').on('change', '.check-tipo-archivo', function () {
+                let checkbox = $(this);
+                let idExpediente = checkbox.data('id');
+                let valorSeleccionado = checkbox.is(':checked') ? '1' : '0';
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/ActualizarFirma",
+                    data: {
+                        idExp: idExpediente,
+                        valorFirma: valorSeleccionado
+                    },
+                    dataType: "JSON",
+                    success: function (resp) {
+                        if (resp.success) {
+                            console.log("Guardado en BD correctamente:", valorSeleccionado);
+
+                            // 🔥 ACTUALIZAMOS EL VALOR EN LA FILA DE DATATABLES EN MEMORIA
+                            let tr = checkbox.closest('tr');
+                            if (tr.hasClass('child')) tr = tr.prev();
+                            let row = table.row(tr);
+                            if (row.data()) {
+                                row.data().Firma = valorSeleccionado;
+                            }
+                        } else {
+                            Swal.fire('Error', 'No se pudo guardar: ' + resp.mensaje, 'error');
+                            // Si falla, revertimos el checkbox visualmente
+                            checkbox.prop('checked', !checkbox.is(':checked'));
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'Falla de conexión con el servidor', 'error');
+                        checkbox.prop('checked', !checkbox.is(':checked'));
+                    }
+                });
             });
         }
     });

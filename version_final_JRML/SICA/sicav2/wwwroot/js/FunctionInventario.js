@@ -103,9 +103,9 @@ $(document).ready(function () {
         const tipoReporte = $("#TR option:selected").val();
         const areaSeleccionada = $("#AR option:selected").val();
         const serieDoc = $("#SD option:selected").val();
-        const rutaFisicaPorArea = "/Formatos/Inventario_Archivo_Documental_SICA_MODIF.xlsm";
-        const rutaFisicaPorAreaSerieDocumental = "/Formatos/Inventario_Individual_Archivo_Documental_SICA.xlsm";
-        const rutaFisicaGeneral = "/Formatos/Inventario_General_Archivo_Documental_SICA_MODIF.xlsm";
+        const rutaFisicaPorArea = "/Formatos/Formato_inventario_documental_SICA.xlsm";
+        const rutaFisicaPorAreaSerieDocumental = "/Formatos/Formato_inventario_documental_SICA.xlsm";
+        const rutaFisicaGeneral = "/Formatos/Formato_inventario_documental_SICA.xlsm";
 
        
         // 1. Bloqueamos con el cargando animado
