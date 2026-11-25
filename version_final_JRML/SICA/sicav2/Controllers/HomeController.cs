@@ -1330,20 +1330,52 @@ namespace sicav2.Controllers
                         dtS.Columns.RemoveAt(dtS.Columns.Count - 1);
                     }
 
+                    // =========================================================================
                     int totalFilas = dtS.Rows.Count;
                     if (totalFilas > 0)
                     {
-                        // Si hay más de 53 registros, empujamos hacia abajo la fila 81 (Hoja de cierre y firmas)
+                        int filaInicio = 28;
+                        int filaFin = filaInicio + totalFilas - 1;
+
+                        // 1. Ajustamos dinámicamente las 53 filas base de la plantilla (de la 28 a la 80)
                         if (totalFilas > 53)
                         {
+                            // Si hay MÁS de 53 registros, agregamos las filas extra
                             worksheet.InsertRow(50, totalFilas - 53, InsertOptionsType.FormatAsBefore);
                         }
-                        worksheet.InsertDataTable(dtS, false, 28, 1);
+                        else if (totalFilas < 53)
+                        {
+                            // Si hay MENOS de 53 registros, eliminamos las filas vacías sobrantes
+                            // Así desaparecen los recuadros vacíos y las firmas suben pegadas al final de la tabla
+                            int filasSobrantes = 53 - totalFilas;
+                            worksheet.DeleteRow(filaFin + 1, filasSobrantes);
+                        }
+
+                        // 2. Primero insertamos los datos
+                        worksheet.InsertDataTable(dtS, false, filaInicio, 1);
+
+                        // 3. Seleccionamos TODAS las filas insertadas (desde la 28 hasta la última, columnas A a N)
+                        CellRange rangoCompleto = worksheet.Range[filaInicio, 1, filaFin, 14];
+
+                        // Tipografía, tamaño y centrado uniforme
+                        rangoCompleto.Style.Font.FontName = "Arial";
+                        rangoCompleto.Style.Font.Size = 22; // Cambia este número si la quieres más grande o chica
+                        rangoCompleto.Style.WrapText = true;
+                        rangoCompleto.Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        rangoCompleto.Style.VerticalAlignment = VerticalAlignType.Center;
+
+                        // 4. Bordes negros delgados en TODA la cuadrícula (interior y contorno completo, incluyendo la última fila)
+                        rangoCompleto.BorderInside(LineStyleType.Thin, System.Drawing.Color.Black);
+                        rangoCompleto.BorderAround(LineStyleType.Thin, System.Drawing.Color.Black);
+
+                        // 5. Ajustamos automáticamente la altura de todas las filas para que no se corte ningún texto
+                        rangoCompleto.AutoFitRows();
                     }
                     else
                     {
                         worksheet.Range["A28"].Text = "No se encontraron registros.";
                     }
+                    // =========================================================================
 
                     using (var ms = new MemoryStream())
                     {
@@ -1451,19 +1483,52 @@ namespace sicav2.Controllers
                         dtS.Columns.RemoveAt(dtS.Columns.Count - 1);
                     }
 
+                    // =========================================================================
                     int totalFilas = dtS.Rows.Count;
                     if (totalFilas > 0)
                     {
+                        int filaInicio = 28;
+                        int filaFin = filaInicio + totalFilas - 1;
+
+                        // 1. Ajustamos dinámicamente las 53 filas base de la plantilla (de la 28 a la 80)
                         if (totalFilas > 53)
                         {
+                            // Si hay MÁS de 53 registros, agregamos las filas extra
                             worksheet.InsertRow(50, totalFilas - 53, InsertOptionsType.FormatAsBefore);
                         }
-                        worksheet.InsertDataTable(dtS, false, 28, 1);
+                        else if (totalFilas < 53)
+                        {
+                            // Si hay MENOS de 53 registros, eliminamos las filas vacías sobrantes
+                            // Así desaparecen los recuadros vacíos y las firmas suben pegadas al final de la tabla
+                            int filasSobrantes = 53 - totalFilas;
+                            worksheet.DeleteRow(filaFin + 1, filasSobrantes);
+                        }
+
+                        // 2. Primero insertamos los datos
+                        worksheet.InsertDataTable(dtS, false, filaInicio, 1);
+
+                        // 3. Seleccionamos TODAS las filas insertadas (desde la 28 hasta la última, columnas A a N)
+                        CellRange rangoCompleto = worksheet.Range[filaInicio, 1, filaFin, 14];
+
+                        // Tipografía, tamaño y centrado uniforme
+                        rangoCompleto.Style.Font.FontName = "Arial";
+                        rangoCompleto.Style.Font.Size = 22; // Cambia este número si la quieres más grande o chica
+                        rangoCompleto.Style.WrapText = true;
+                        rangoCompleto.Style.HorizontalAlignment = HorizontalAlignType.Center;
+                        rangoCompleto.Style.VerticalAlignment = VerticalAlignType.Center;
+
+                        // 4. Bordes negros delgados en TODA la cuadrícula (interior y contorno completo, incluyendo la última fila)
+                        rangoCompleto.BorderInside(LineStyleType.Thin, System.Drawing.Color.Black);
+                        rangoCompleto.BorderAround(LineStyleType.Thin, System.Drawing.Color.Black);
+
+                        // 5. Ajustamos automáticamente la altura de todas las filas para que no se corte ningún texto
+                        rangoCompleto.AutoFitRows();
                     }
                     else
                     {
-                        worksheet.Range["A28"].Text = "No se encontraron registros para los filtros seleccionados.";
+                        worksheet.Range["A28"].Text = "No se encontraron registros.";
                     }
+                    // =========================================================================
 
                     string nombreArchivo = (tipoRepFinal == "Por_Area")
                         ? $"ReportePorArea_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx"

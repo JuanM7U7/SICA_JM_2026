@@ -340,7 +340,7 @@ html {
 .Container_Login {
     width: 45vw;
     height: 100vh;
-    background: linear-gradient(#3F4195, 80%, #121355);
+    background: linear-gradient(#05347b, 50%, #20b7b4);
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -508,7 +508,7 @@ html {
 
     .c-buscador-global .titulo {
         padding: 10px 50px;
-        background: linear-gradient(#20B1AE, 70%, #0c4f4e);
+        background: linear-gradient(#39a9a6, 70%, #234443);
         /*color: #121355;*/
         color: #fff;
         font-weight: bolder;

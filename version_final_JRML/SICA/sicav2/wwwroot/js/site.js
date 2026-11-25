@@ -232,7 +232,7 @@ function CreaSelectLabel(id, arreglo) {
 
 function CreaSelectLabelgenerico(id, arreglo) {
 
-    let htmld = '<select style="width:100%;font-size:18px; " class="' + id + '" id="' + id + '" name="' + id + '" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#flush-collapseOne" aria-controls="flush-collapseOne"> <option value="" selected hidden>--Selecciona el Área--</option> ';
+    let htmld = '<select style="width:100%;font-size:18px; background: linear-gradient(#c4c4cf, 70%, #d3caca); " class="' + id + '" id="' + id + '" name="' + id + '" data-bs-toggle="collapse" aria-expanded="true" data-bs-target="#flush-collapseOne" aria-controls="flush-collapseOne"> <option value="" selected hidden>--Selecciona el Área--</option> ';
     for (let v = 0; v < arreglo.length; v++) {
         htmld += `
                 <option Value="PRES">Presidencia</option>
