@@ -27,12 +27,12 @@ html {
 .Container_Logo {
     width: 55vw;
     height: 100vh;
-    background-color: #F7F7F7;
+    background: linear-gradient(#23272a, 85%, #ffffff);
     display: flex;
-    flex-direction: row; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 5px; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .scene {
